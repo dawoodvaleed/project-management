@@ -12,9 +12,7 @@ export const Login = () => {
   const login = async () => {
     if (email && password) {
       try {
-        console.log(loginInfo);
         const { data } = await api.post("/auth/login", loginInfo);
-        console.log(data);
         if (data) {
           Cookies.set("authToken", data.token);
           navigate("/");
