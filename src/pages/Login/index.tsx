@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../api";
 
-export const Login = () => {
+type LoginProps = { showNavigation: Function };
+
+export const Login = ({ showNavigation }: LoginProps) => {
+  useLayoutEffect(() => {
+    showNavigation(false);
+  }, []);
+
   const navigate = useNavigate();
 
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
@@ -16,6 +22,7 @@ export const Login = () => {
         if (data) {
           Cookies.set("authToken", data.token);
           navigate("/");
+          showNavigation(true);
         }
       } catch (err) {
         console.error(err);
