@@ -2,18 +2,30 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
+import { Vendor } from "./pages/Vendor";
 import PrivateRoutes from "./components/PrivateRoutes";
+import { Nav } from "./components/Navbar";
+import { SideBar } from "./components/Navbar/SideBar";
+import { useState } from "react";
 
 function App() {
+  const [sidemenu, setSidemenu] = useState(true);
+  const showsidemenu = () => setSidemenu(!sidemenu);
+
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route element={<PrivateRoutes />}>
-            <Route element={<Home />} path="/" />
-          </Route>
-          <Route element={<Login />} path="/login" />
-        </Routes>
+        <Nav showsidemenu={showsidemenu} />
+        <div>
+          <SideBar showsidemenu={showsidemenu} sidemenu={sidemenu} />
+          <Routes>
+            <Route element={<PrivateRoutes />}>
+              <Route element={<Home />} path="/" />
+              <Route element={<Vendor />} path="/vendor" />
+            </Route>
+            <Route element={<Login />} path="/login" />
+          </Routes>
+        </div>
       </BrowserRouter>
     </div>
   );
