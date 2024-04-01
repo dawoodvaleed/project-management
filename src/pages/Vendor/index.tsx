@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../api";
@@ -15,7 +15,7 @@ const addAction = (rows: any) =>
     ),
   }));
 
-export const Vendor: React.FC = () => {
+export const Vendor = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState({ rows: [], total: 0 });

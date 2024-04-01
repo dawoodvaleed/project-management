@@ -5,12 +5,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
 import { Vendor } from "./pages/Vendor";
+import { Item } from "./pages/Item";
 
 import PrivateRoutes from "./components/PrivateRoutes";
 import { DrawerHeader, NavBar } from "./components/Navbar";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import { Project } from "./pages/Projects";
 
 const theme = createTheme({
   palette: {
@@ -37,6 +39,8 @@ function App() {
               <Route element={<PrivateRoutes />}>
                 <Route element={<Home />} path="/" />
                 <Route element={<Vendor />} path="/vendor" />
+                <Route element={<Item />} path="/item" />
+                <Route element={<Project />} path="/project" />
               </Route>
               <Route
                 element={<Login showNavigation={setShowNavigation} />}

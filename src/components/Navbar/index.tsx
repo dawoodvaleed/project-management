@@ -11,6 +11,8 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
+  Collapse,
+  Divider,
   Drawer as MuiDrawer,
   AppBar as MuiAppBar,
   AppBarProps as MuiAppBarProps,
@@ -22,9 +24,13 @@ import {
   Monitor,
   Groups,
   Logout,
+  ExpandLess,
+  ExpandMore,
+  LocalOffer,
+  ModeStandby,
 } from "@mui/icons-material";
 
-const drawerWidth = 180;
+const drawerWidth = 200;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -94,7 +100,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const NavbarRoutes = [
+const NAVBAR_ROUTES = [
   {
     displayText: "Dashboard",
     route: "/",
@@ -105,13 +111,35 @@ const NavbarRoutes = [
     route: "/vendor",
     icon: <Groups />,
   },
+  {
+    displayText: "Items",
+    icon: <LocalOffer />,
+    submenuRoutes: [
+      {
+        displayText: "Items Request",
+        route: "/item",
+        icon: <ModeStandby />,
+      },
+    ],
+  },
+  {
+    displayText: "Projects",
+    icon: <LocalOffer />,
+    submenuRoutes: [
+      {
+        displayText: "Projects",
+        route: "/project",
+        icon: <ModeStandby />,
+      },
+    ],
+  },
 ];
 
 export const NavBar = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -119,6 +147,23 @@ export const NavBar = () => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const [drawerStateSetting, setDrawerStateSetting] = useState(
+    NAVBAR_ROUTES.filter((navRoute) => navRoute.submenuRoutes).map(
+      ({ displayText }) => ({
+        id: displayText,
+        open: false,
+      })
+    )
+  );
+
+  const handleClick = (id: string) => {
+    setDrawerStateSetting(
+      drawerStateSetting.map((item) =>
+        item.id === id ? { ...item, open: !item.open } : item
+      )
+    );
   };
 
   return (
@@ -146,14 +191,20 @@ export const NavBar = () => {
           </IconButton>
         </DrawerHeader>
         <List>
-          {NavbarRoutes.map(({ displayText, route, icon }) => (
+          {NAVBAR_ROUTES.map(({ displayText, route, icon, submenuRoutes }) => (
             <ListItem
               key={displayText}
               disablePadding
               sx={{ display: "block" }}
             >
               <ListItemButton
-                onClick={() => navigate(route)}
+                onClick={() => {
+                  if (!submenuRoutes && route) {
+                    navigate(route);
+                  } else {
+                    handleClick(displayText);
+                  }
+                }}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
@@ -173,9 +224,58 @@ export const NavBar = () => {
                   primary={displayText}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
+                {submenuRoutes &&
+                  (drawerStateSetting.find((item) => item.id === displayText)
+                    ?.open ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  ))}
               </ListItemButton>
+              {submenuRoutes?.map(
+                ({
+                  icon: submenuIcon,
+                  displayText: submenuDisplayText,
+                  route: submenuRoute,
+                }) => (
+                  <Collapse
+                    in={
+                      drawerStateSetting.find((item) => item.id === displayText)
+                        ?.open
+                    }
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <List disablePadding key={submenuDisplayText}>
+                      <ListItemButton
+                        sx={{
+                          minHeight: 48,
+                          justifyContent: open ? "initial" : "center",
+                          px: 2.5,
+                        }}
+                        onClick={() => navigate(submenuRoute)}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : "auto",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {submenuIcon}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={submenuDisplayText}
+                          sx={{ opacity: open ? 1 : 0 }}
+                        />
+                      </ListItemButton>
+                    </List>
+                  </Collapse>
+                )
+              )}
             </ListItem>
           ))}
+          <Divider />
           <ListItem key="Logout" disablePadding sx={{ display: "block" }}>
             <ListItemButton
               onClick={() => {
