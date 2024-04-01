@@ -42,7 +42,6 @@ export const Login = ({ showNavigation }: LoginProps) => {
         }
       } catch (err: any) {
         setError(err?.response?.data);
-        console.error(err);
       }
     }
   };

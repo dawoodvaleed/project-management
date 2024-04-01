@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../api";
 import { Table } from "../../components/Table";
@@ -15,6 +16,8 @@ const addAction = (rows: any) =>
   }));
 
 export const Vendor: React.FC = () => {
+  const navigate = useNavigate();
+
   const [data, setData] = useState({ rows: [], total: 0 });
   const { rows, total } = data;
 
@@ -26,8 +29,11 @@ export const Vendor: React.FC = () => {
       });
       const [rows, total] = data;
       setData({ rows: addAction(rows), total });
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      if (err.response.status === 401) {
+        Cookies.remove("authToken");
+        navigate("/login");
+      }
     }
   };
 
