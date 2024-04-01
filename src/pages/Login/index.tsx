@@ -3,6 +3,17 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../api";
 
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+
+const Item = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(1.5),
+  textAlign: "center",
+}));
+
 type LoginProps = { showNavigation: Function };
 
 export const Login = ({ showNavigation }: LoginProps) => {
@@ -30,29 +41,50 @@ export const Login = ({ showNavigation }: LoginProps) => {
     }
   };
 
-  const onChange = ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
+  const onChange = ({ currentTarget }: any) => {
     setLoginInfo({ ...loginInfo, [currentTarget.id]: currentTarget.value });
   };
 
   return (
-    <form>
-      <input
-        type="email"
-        id="email"
-        onChange={onChange}
-        value={email}
-        required
-      />
-      <input
-        type="password"
-        id="password"
-        onChange={onChange}
-        value={password}
-        required
-      />
-      <button onClick={login} type="button">
-        Log in
-      </button>
-    </form>
+    <Grid container component="main" justifyContent="center">
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={5}
+        direction="column"
+        component={Paper}
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Item>
+          <TextField
+            id="email"
+            label="Email"
+            variant="outlined"
+            onChange={onChange}
+            value={email}
+            required
+          />
+        </Item>
+        <Item>
+          <TextField
+            type="password"
+            id="password"
+            label="Password"
+            onChange={onChange}
+            value={password}
+            variant="outlined"
+            required
+          />
+        </Item>
+        <Item>
+          <Button onClick={login} variant="contained">
+            Log In
+          </Button>
+        </Item>
+      </Grid>
+    </Grid>
   );
 };
