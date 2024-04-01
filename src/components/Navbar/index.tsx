@@ -13,6 +13,7 @@ import {
   IconButton,
   Collapse,
   Divider,
+  Typography,
   Drawer as MuiDrawer,
   AppBar as MuiAppBar,
   AppBarProps as MuiAppBarProps,
@@ -116,7 +117,7 @@ const NAVBAR_ROUTES = [
     icon: <LocalOffer />,
     submenuRoutes: [
       {
-        displayText: "Items Request",
+        displayText: "Item Request",
         route: "/item",
         icon: <FiberManualRecord />,
       },
@@ -222,7 +223,12 @@ export const NavBar = () => {
                     {icon}
                   </ListItemIcon>
                   <ListItemText
-                    primary={displayText}
+                    disableTypography
+                    primary={
+                      <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                        {displayText}
+                      </Typography>
+                    }
                     sx={{ opacity: open ? 1 : 0 }}
                   />
                   {submenuRoutes &&
@@ -276,7 +282,6 @@ export const NavBar = () => {
                   )
                 )}
               </ListItem>
-
               <Divider />
             </>
           ))}
@@ -301,7 +306,15 @@ export const NavBar = () => {
               >
                 <Logout />
               </ListItemIcon>
-              <ListItemText primary="Logout" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText
+                disableTypography
+                primary={
+                  <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+                    Logout
+                  </Typography>
+                }
+                sx={{ opacity: open ? 1 : 0 }}
+              />
             </ListItemButton>
           </ListItem>
         </List>
