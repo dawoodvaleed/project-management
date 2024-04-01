@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { FormEvent, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../api";
@@ -28,7 +28,8 @@ export const Login = ({ showNavigation }: LoginProps) => {
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const { email, password } = loginInfo;
 
-  const login = async () => {
+  const login = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (email && password) {
       try {
         const { data } = await api.post("/auth/login", loginInfo);
@@ -66,32 +67,35 @@ export const Login = ({ showNavigation }: LoginProps) => {
         justifyContent="center"
         alignItems="center"
       >
-        <Item>
-          <TextField
-            id="email"
-            label="Email"
-            variant="outlined"
-            onChange={onChange}
-            value={email}
-            required
-          />
-        </Item>
-        <Item>
-          <TextField
-            type="password"
-            id="password"
-            label="Password"
-            onChange={onChange}
-            value={password}
-            variant="outlined"
-            required
-          />
-        </Item>
-        <Item>
-          <Button onClick={login} variant="contained">
-            Log In
-          </Button>
-        </Item>
+        <form onSubmit={login}>
+          <Item>
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              variant="outlined"
+              onChange={onChange}
+              value={email}
+              required
+            />
+          </Item>
+          <Item>
+            <TextField
+              id="password"
+              label="Password"
+              type="password"
+              onChange={onChange}
+              value={password}
+              variant="outlined"
+              required
+            />
+          </Item>
+          <Item>
+            <Button type="submit" variant="contained">
+              Log In
+            </Button>
+          </Item>
+        </form>
       </Grid>
     </Grid>
   );
