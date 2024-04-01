@@ -9,8 +9,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
-const Item = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(1.5),
+const Item = styled("div")(({ theme }) => ({
+  padding: theme.spacing(2),
+  paddingLeft: theme.spacing(10),
+  paddingRight: theme.spacing(10),
   textAlign: "center",
 }));
 
@@ -46,7 +48,14 @@ export const Login = ({ showNavigation }: LoginProps) => {
   };
 
   return (
-    <Grid container component="main" justifyContent="center">
+    <Grid
+      container
+      component="main"
+      justifyContent="center"
+      direction="column"
+      alignItems="center"
+      sx={{ minHeight: "80vh" }}
+    >
       <Grid
         item
         xs={12}
@@ -54,7 +63,6 @@ export const Login = ({ showNavigation }: LoginProps) => {
         md={5}
         direction="column"
         component={Paper}
-        spacing={2}
         justifyContent="center"
         alignItems="center"
       >
