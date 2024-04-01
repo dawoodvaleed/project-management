@@ -27,7 +27,7 @@ import {
   ExpandLess,
   ExpandMore,
   LocalOffer,
-  ModeStandby,
+  FiberManualRecord,
 } from "@mui/icons-material";
 
 const drawerWidth = 200;
@@ -118,7 +118,7 @@ const NAVBAR_ROUTES = [
       {
         displayText: "Items Request",
         route: "/item",
-        icon: <ModeStandby />,
+        icon: <FiberManualRecord />,
       },
     ],
   },
@@ -129,7 +129,7 @@ const NAVBAR_ROUTES = [
       {
         displayText: "Projects",
         route: "/project",
-        icon: <ModeStandby />,
+        icon: <FiberManualRecord />,
       },
     ],
   },
@@ -192,90 +192,94 @@ export const NavBar = () => {
         </DrawerHeader>
         <List>
           {NAVBAR_ROUTES.map(({ displayText, route, icon, submenuRoutes }) => (
-            <ListItem
-              key={displayText}
-              disablePadding
-              sx={{ display: "block" }}
-            >
-              <ListItemButton
-                onClick={() => {
-                  if (!submenuRoutes && route) {
-                    navigate(route);
-                  } else {
-                    handleClick(displayText);
-                  }
-                }}
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+            <>
+              <ListItem
+                key={displayText}
+                disablePadding
+                sx={{ display: "block" }}
               >
-                <ListItemIcon
+                <ListItemButton
+                  onClick={() => {
+                    if (!submenuRoutes && route) {
+                      navigate(route);
+                    } else {
+                      handleClick(displayText);
+                    }
+                  }}
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  {icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={displayText}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-                {submenuRoutes &&
-                  (drawerStateSetting.find((item) => item.id === displayText)
-                    ?.open ? (
-                    <ExpandLess />
-                  ) : (
-                    <ExpandMore />
-                  ))}
-              </ListItemButton>
-              {submenuRoutes?.map(
-                ({
-                  icon: submenuIcon,
-                  displayText: submenuDisplayText,
-                  route: submenuRoute,
-                }) => (
-                  <Collapse
-                    in={
-                      drawerStateSetting.find((item) => item.id === displayText)
-                        ?.open
-                    }
-                    timeout="auto"
-                    unmountOnExit
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
                   >
-                    <List disablePadding key={submenuDisplayText}>
-                      <ListItemButton
-                        sx={{
-                          minHeight: 48,
-                          justifyContent: open ? "initial" : "center",
-                          px: 2.5,
-                        }}
-                        onClick={() => navigate(submenuRoute)}
-                      >
-                        <ListItemIcon
+                    {icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={displayText}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                  {submenuRoutes &&
+                    (drawerStateSetting.find((item) => item.id === displayText)
+                      ?.open ? (
+                      <ExpandLess />
+                    ) : (
+                      <ExpandMore />
+                    ))}
+                </ListItemButton>
+                {submenuRoutes?.map(
+                  ({
+                    icon: submenuIcon,
+                    displayText: submenuDisplayText,
+                    route: submenuRoute,
+                  }) => (
+                    <Collapse
+                      in={
+                        drawerStateSetting.find(
+                          (item) => item.id === displayText
+                        )?.open
+                      }
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <List disablePadding key={submenuDisplayText}>
+                        <ListItemButton
                           sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : "auto",
-                            justifyContent: "center",
+                            minHeight: 48,
+                            justifyContent: open ? "initial" : "center",
+                            px: 2.5,
                           }}
+                          onClick={() => navigate(submenuRoute)}
                         >
-                          {submenuIcon}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={submenuDisplayText}
-                          sx={{ opacity: open ? 1 : 0 }}
-                        />
-                      </ListItemButton>
-                    </List>
-                  </Collapse>
-                )
-              )}
-            </ListItem>
+                          <ListItemIcon
+                            sx={{
+                              minWidth: 0,
+                              mr: open ? 3 : "auto",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {submenuIcon}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={submenuDisplayText}
+                            sx={{ opacity: open ? 1 : 0 }}
+                          />
+                        </ListItemButton>
+                      </List>
+                    </Collapse>
+                  )
+                )}
+              </ListItem>
+
+              <Divider />
+            </>
           ))}
-          <Divider />
           <ListItem key="Logout" disablePadding sx={{ display: "block" }}>
             <ListItemButton
               onClick={() => {
