@@ -3,21 +3,26 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
-import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MonitorIcon from "@mui/icons-material/Monitor";
-import GroupsIcon from "@mui/icons-material/Groups";
-import LogoutIcon from "@mui/icons-material/Logout";
+import {
+  Toolbar,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  Drawer as MuiDrawer,
+  AppBar as MuiAppBar,
+  AppBarProps as MuiAppBarProps,
+} from "@mui/material";
+import {
+  Menu,
+  ChevronLeft,
+  ChevronRight,
+  Monitor,
+  Groups,
+  Logout,
+} from "@mui/icons-material";
 
 const drawerWidth = 180;
 
@@ -93,12 +98,12 @@ const NavbarRoutes = [
   {
     displayText: "Dashboard",
     route: "/",
-    icon: <MonitorIcon />,
+    icon: <Monitor />,
   },
   {
     displayText: "Vendors",
     route: "/vendor",
-    icon: <GroupsIcon />,
+    icon: <Groups />,
   },
 ];
 
@@ -129,7 +134,7 @@ export const NavBar = () => {
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <h3>Arch Vision Interior</h3>
         </Toolbar>
@@ -137,11 +142,7 @@ export const NavBar = () => {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+            {theme.direction === "rtl" ? <ChevronRight /> : <ChevronLeft />}
           </IconButton>
         </DrawerHeader>
         <List>
@@ -194,7 +195,7 @@ export const NavBar = () => {
                   justifyContent: "center",
                 }}
               >
-                <LogoutIcon />
+                <Logout />
               </ListItemIcon>
               <ListItemText primary="Logout" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Cookies from "js-cookie";
 import api from "../../api";
 import { Table } from "../../components/Table";
@@ -14,26 +14,22 @@ const addAction = (rows: any) =>
     ),
   }));
 
-const fetchVendors = async () => {
-  try {
-    const authToken = Cookies.get("authToken");
-    const { data } = await api.get("/vendor", {
-      headers: { Authorization: authToken },
-    });
-    return data;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 export const Vendor: React.FC = () => {
-  const [rows, setRows] = useState([]);
+  const [data, setData] = useState({ rows: [], total: 0 });
+  const { rows, total } = data;
 
-  useEffect(() => {
-    fetchVendors().then((data) => {
-      setRows(addAction(data));
-    });
-  }, []);
+  const fetchVendors = async (queryStr: string) => {
+    try {
+      const authToken = Cookies.get("authToken");
+      const { data } = await api.get(`/vendor${queryStr}`, {
+        headers: { Authorization: authToken },
+      });
+      const [rows, total] = data;
+      setData({ rows: addAction(rows), total });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="container">
@@ -52,6 +48,8 @@ export const Vendor: React.FC = () => {
           { key: "action", value: "Action" },
         ]}
         rows={rows}
+        total={total}
+        onPagination={(queryStr: string) => fetchVendors(queryStr)}
       />
     </div>
   );
