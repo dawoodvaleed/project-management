@@ -25,11 +25,13 @@ export const Login = ({ showNavigation }: LoginProps) => {
 
   const navigate = useNavigate();
 
+  const [error, setError] = useState("");
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const { email, password } = loginInfo;
 
   const login = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setError("");
     if (email && password) {
       try {
         const { data } = await api.post("/auth/login", loginInfo);
@@ -38,7 +40,8 @@ export const Login = ({ showNavigation }: LoginProps) => {
           navigate("/");
           showNavigation(true);
         }
-      } catch (err) {
+      } catch (err: any) {
+        setError(err?.response?.data);
         console.error(err);
       }
     }
@@ -90,6 +93,11 @@ export const Login = ({ showNavigation }: LoginProps) => {
               required
             />
           </Item>
+          {error && (
+            <Item>
+              <span style={{ color: "red" }}>{error}</span>
+            </Item>
+          )}
           <Item>
             <Button type="submit" variant="contained">
               Log In
