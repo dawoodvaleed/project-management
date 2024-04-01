@@ -82,7 +82,7 @@ export const Table = ({ headers, rows, total, onPagination }: TableProps) => {
               slotProps={{ select: { native: true } }}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-              // ActionsComponent={TablePaginationActions}
+              ActionsComponent={TablePaginationActions}
             />
           </TableRow>
         </TableFooter>
