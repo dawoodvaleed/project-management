@@ -3,7 +3,6 @@ import {
   Table as MuiTable,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   TableFooter,
@@ -49,8 +48,8 @@ export const Table = ({ headers, rows, total, onPagination }: TableProps) => {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <MuiTable sx={{ minWidth: 800 }}>
+    <Paper>
+      <MuiTable>
         <TableHead>
           <TableRow>
             {headers.map((header) => (
@@ -87,7 +86,7 @@ export const Table = ({ headers, rows, total, onPagination }: TableProps) => {
           </TableRow>
         </TableFooter>
       </MuiTable>
-    </TableContainer>
+    </Paper>
   );
 };
 
