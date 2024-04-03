@@ -6,6 +6,7 @@ import { Table } from "../../components/Table";
 const addAction = (rows: any) =>
   rows.map((row: any) => ({
     ...row,
+    role: row.role.name || "",
     action: (
       <div>
         {/* TODO: add modal logic here to view Vendor Details and Vendor Bank account */}
@@ -14,13 +15,13 @@ const addAction = (rows: any) =>
     ),
   }));
 
-export const Vendor = () => {
+export const User = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState({ rows: [], total: 0 });
   const { rows, total } = data;
 
-  const fetchVendorData = async (queryStr: string) => {
+  const fetchUserData = async (queryStr: string) => {
     const data = await fetchData("user", queryStr, addAction, navigate);
     if (data) {
       setData(data);
@@ -29,23 +30,16 @@ export const Vendor = () => {
 
   return (
     <div className="container">
-      <h2>Vendor</h2>
+      <h2>User</h2>
       <Table
         headers={[
-          { key: "code", value: "Code" },
-          { key: "companyName", value: "Company" },
-          { key: "contactPerson", value: "Contact Person" },
-          { key: "landline", value: "Landline #" },
-          { key: "mobile", value: "Cell #" },
-          { key: "province", value: "Province" },
-          { key: "raServiceTax", value: "RA Service Tax" },
-          { key: "bankHoldTax", value: "Bank Hold Tax" },
-          { key: "incomeTax", value: "Income Tax" },
+          { key: "email", value: "Email" },
+          { key: "role", value: "Role" },
           { key: "action", value: "Action" },
         ]}
         rows={rows}
         total={total}
-        onPagination={(queryStr: string) => fetchVendorData(queryStr)}
+        onPagination={(queryStr: string) => fetchUserData(queryStr)}
       />
     </div>
   );

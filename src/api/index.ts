@@ -1,5 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: process.env.REACT_APP_BASR_URL,
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
+
+export * from "./fetchData";

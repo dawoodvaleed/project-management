@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
 import {
   Toolbar,
   List,
@@ -21,15 +21,11 @@ import {
 import {
   Menu,
   ChevronLeft,
-  ChevronRight,
-  Monitor,
-  Groups,
   Logout,
   ExpandLess,
   ExpandMore,
-  LocalOffer,
-  FiberManualRecord,
 } from "@mui/icons-material";
+import { NAVBAR_ROUTES } from "./navbarRoutes";
 
 const drawerWidth = 200;
 
@@ -101,44 +97,8 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const NAVBAR_ROUTES = [
-  {
-    displayText: "Dashboard",
-    route: "/",
-    icon: <Monitor />,
-  },
-  {
-    displayText: "Vendors",
-    route: "/vendor",
-    icon: <Groups />,
-  },
-  {
-    displayText: "Items",
-    icon: <LocalOffer />,
-    submenuRoutes: [
-      {
-        displayText: "Item Request",
-        route: "/item",
-        icon: <FiberManualRecord />,
-      },
-    ],
-  },
-  {
-    displayText: "Projects",
-    icon: <LocalOffer />,
-    submenuRoutes: [
-      {
-        displayText: "Projects",
-        route: "/project",
-        icon: <FiberManualRecord />,
-      },
-    ],
-  },
-];
-
 export const NavBar = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
 
   const [open, setOpen] = useState(true);
 
@@ -188,7 +148,7 @@ export const NavBar = () => {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? <ChevronRight /> : <ChevronLeft />}
+            <ChevronLeft />
           </IconButton>
         </DrawerHeader>
         <List>
