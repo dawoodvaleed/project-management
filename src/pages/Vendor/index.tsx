@@ -21,7 +21,7 @@ export const Vendor = () => {
   const { rows, total } = data;
 
   const fetchVendorData = async (queryStr: string) => {
-    const data = await fetchData("user", queryStr, addAction, navigate);
+    const data = await fetchData("vendor", queryStr, addAction, navigate);
     if (data) {
       setData(data);
     }
