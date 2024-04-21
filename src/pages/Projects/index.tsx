@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../api";
 import { Table } from "../../components/Table";
+import { IconButton } from "@mui/material";
+import { Visibility } from "@mui/icons-material";
 
 const addAction = (rows: any) =>
   rows.map((row: any) => ({
@@ -9,10 +11,10 @@ const addAction = (rows: any) =>
     customerName: `${row.customer.companyName} (${row.customer.province})`,
     verification: row.isVerified ? "Un-Verified	" : "Verified",
     action: (
-      <div>
-        {/* TODO: add modal logic here to view detail */}
-        <button onClick={() => console.log(row.id)}>View</button>
-      </div>
+      // TODO: add modal logic here to view detail
+      <IconButton color="inherit" onClick={() => console.log(row.id)}>
+        <Visibility />
+      </IconButton>
     ),
   }));
 

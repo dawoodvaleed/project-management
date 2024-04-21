@@ -2,16 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../../components/Table";
 import { fetchData } from "../../api";
+import { IconButton } from "@mui/material";
+import { Visibility } from "@mui/icons-material";
 
 const addAction = (rows: any) =>
   rows.map((row: any) => ({
     ...row,
     status: row.status ? "Active" : "Unactive",
     action: (
-      <div>
-        {/* TODO: add modal logic here to view detail */}
-        <button onClick={() => console.log(row.id)}>View</button>
-      </div>
+      // TODO: add modal logic here to view detail
+      <IconButton color="inherit" onClick={() => console.log(row.id)}>
+        <Visibility />
+      </IconButton>
     ),
   }));
 

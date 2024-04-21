@@ -49,7 +49,7 @@ export const Table = ({ headers, rows, total, onPagination }: TableProps) => {
 
   return (
     <Paper>
-      <MuiTable>
+      <MuiTable size="small">
         <TableHead>
           <TableRow>
             {headers.map((header) => (
