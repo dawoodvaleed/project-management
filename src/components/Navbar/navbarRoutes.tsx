@@ -13,8 +13,8 @@ export const NAVBAR_ROUTES = [
     icon: <Monitor />,
   },
   {
-    displayText: "Vendor",
-    route: "/vendor",
+    displayText: "Customer",
+    route: "/customer",
     icon: <Groups />,
   },
   {

@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
-import { Vendor } from "./pages/Vendor";
+import { Customer } from "./pages/Customer";
 import { Item } from "./pages/Item";
 
 import PrivateRoutes from "./components/PrivateRoutes";
@@ -39,7 +39,7 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />}>
                 <Route element={<Home />} path="/" />
-                <Route element={<Vendor />} path="/vendor" />
+                <Route element={<Customer />} path="/customer" />
                 <Route element={<Item />} path="/item" />
                 <Route element={<Project />} path="/project" />
                 <Route element={<Role />} path="/security/role" />

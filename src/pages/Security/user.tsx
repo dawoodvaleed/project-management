@@ -9,7 +9,7 @@ const addAction = (rows: any) =>
     role: row.role.name || "",
     action: (
       <div>
-        {/* TODO: add modal logic here to view Vendor Details and Vendor Bank account */}
+        {/* TODO: add modal logic here to view detail */}
         <button onClick={() => console.log(row.id)}>View</button>
       </div>
     ),

@@ -8,20 +8,20 @@ const addAction = (rows: any) =>
     ...row,
     action: (
       <div>
-        {/* TODO: add modal logic here to view Vendor Details and Vendor Bank account */}
+        {/* TODO: add modal logic here to view detail */}
         <button onClick={() => console.log(row.id)}>View</button>
       </div>
     ),
   }));
 
-export const Vendor = () => {
+export const Customer = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState({ rows: [], total: 0 });
   const { rows, total } = data;
 
-  const fetchVendorData = async (queryStr: string) => {
-    const data = await fetchData("vendor", queryStr, addAction, navigate);
+  const fetchCustomerData = async (queryStr: string) => {
+    const data = await fetchData("customer", queryStr, addAction, navigate);
     if (data) {
       setData(data);
     }
@@ -29,7 +29,7 @@ export const Vendor = () => {
 
   return (
     <div className="container">
-      <h2>Vendor</h2>
+      <h2>Customer</h2>
       <Table
         headers={[
           { key: "code", value: "Code" },
@@ -45,7 +45,7 @@ export const Vendor = () => {
         ]}
         rows={rows}
         total={total}
-        onPagination={(queryStr: string) => fetchVendorData(queryStr)}
+        onPagination={(queryStr: string) => fetchCustomerData(queryStr)}
       />
     </div>
   );
