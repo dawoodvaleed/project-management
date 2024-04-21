@@ -29,7 +29,7 @@ export const Customer = () => {
 
   return (
     <div className="container">
-      <h2>Customer</h2>
+      <h2>Customers</h2>
       <Table
         headers={[
           { key: "code", value: "Code" },
