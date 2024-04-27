@@ -37,6 +37,7 @@ export const Login = ({ showNavigation }: LoginProps) => {
         const { data } = await api.post("/auth/login", loginInfo);
         if (data) {
           Cookies.set("authToken", data.token);
+          Cookies.set("permissions", data.role.permissions.split(","));
           navigate("/");
           showNavigation(true);
         }
