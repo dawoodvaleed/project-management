@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
@@ -14,6 +14,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { Project } from "./pages/Projects";
 import { Role, User } from "./pages/Security";
+import { permissions } from "./config/Permissions";
+import Cookies from "js-cookie";
 import { Measurement } from "./pages/Measurement";
 
 const theme = createTheme({
@@ -28,7 +30,9 @@ const theme = createTheme({
 });
 
 function App() {
-  const [showNavigation, setShowNavigation] = useState(true);
+  const [showNavigation, setShowNavigation] = useState(Cookies.get("authToken") ? true : false);
+  const userpermissions = Cookies.get("permissions") || "";
+  const { customers, items, measurements, projects, roles, users } = permissions
 
   return (
     <ThemeProvider theme={theme}>
@@ -40,12 +44,13 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />}>
                 <Route element={<Home />} path="/" />
-                <Route element={<Customer />} path="/customer" />
-                <Route element={<Item />} path="/item" />
-                <Route element={<Measurement />} path="/measurement" />
-                <Route element={<Project />} path="/project" />
-                <Route element={<Role />} path="/security/role" />
-                <Route element={<User />} path="/security/user" />
+                {userpermissions.includes(customers.name) && <Route element={<Customer />} path={customers.path} />}
+                {userpermissions.includes(items.name) && <Route element={<Item />} path={items.path} />}
+                {userpermissions.includes(measurements.name) && <Route element={<Measurement />} path={measurements.path} />}
+                {userpermissions.includes(projects.name) && <Route element={<Project />} path={projects.path} />}
+                {userpermissions.includes(roles.name) && <Route element={<Role />} path={roles.path} />}
+                {userpermissions.includes(users.name) && <Route element={<User />} path={users.path} />}
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
               <Route
                 element={<Login showNavigation={setShowNavigation} />}

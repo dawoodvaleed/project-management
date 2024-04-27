@@ -25,7 +25,7 @@ import {
   ExpandLess,
   ExpandMore,
 } from "@mui/icons-material";
-import { NAVBAR_ROUTES } from "./navbarRoutes";
+import { MenuRoute, NAVBAR_ROUTES, PROTECTED_ROUTES, SubmenuRoute } from "./navbarRoutes";
 
 const drawerWidth = 200;
 
@@ -109,9 +109,21 @@ export const NavBar = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const userpermissions = Cookies.get("permissions") || ""
+  const filterByPermission = (routes: any) => routes.filter((route: any) => userpermissions.includes(route.name));
+  const mapSubMenuRoutes = (routes: MenuRoute[]) =>
+    routes.map((route) => {
+      let submenuRoutes
+      if (route.submenuRoutes?.length) {
+        submenuRoutes = filterByPermission(route.submenuRoutes);
+        return { ...route, submenuRoutes };
+      }
+      return route;
+    })
 
+  const ALL_NAV_ROUTES = NAVBAR_ROUTES.concat(filterByPermission(mapSubMenuRoutes(PROTECTED_ROUTES)))
   const [drawerStateSetting, setDrawerStateSetting] = useState(
-    NAVBAR_ROUTES.filter((navRoute) => navRoute.submenuRoutes).map(
+    ALL_NAV_ROUTES.filter((navRoute: any) => navRoute.submenuRoutes).map(
       ({ displayText }) => ({
         id: displayText,
         open: false,
@@ -152,7 +164,7 @@ export const NavBar = () => {
           </IconButton>
         </DrawerHeader>
         <List>
-          {NAVBAR_ROUTES.map(({ displayText, route, icon, submenuRoutes }) => (
+          {ALL_NAV_ROUTES.map(({ displayText, route, icon, submenuRoutes }: any) => (
             <>
               <ListItem
                 key={displayText}
@@ -204,7 +216,7 @@ export const NavBar = () => {
                     icon: submenuIcon,
                     displayText: submenuDisplayText,
                     route: submenuRoute,
-                  }) => (
+                  }: any) => (
                     <Collapse
                       in={
                         drawerStateSetting.find(
@@ -249,6 +261,7 @@ export const NavBar = () => {
             <ListItemButton
               onClick={() => {
                 Cookies.remove("authToken");
+                Cookies.remove("permissions");
                 navigate("/login");
               }}
               sx={{
