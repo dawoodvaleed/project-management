@@ -8,7 +8,7 @@ import { Visibility } from "@mui/icons-material";
 const addAction = (rows: any) =>
   rows.map((row: any) => ({
     ...row,
-    customerName: `${row.customer.companyName} (${row.customer.province})`,
+    customer: `${row.customer.name} (${row.customer.province})`,
     verification: row.isVerified ? "Un-Verified	" : "Verified",
     action: (
       // TODO: add modal logic here to view detail
@@ -38,7 +38,7 @@ export const Project = () => {
         headers={[
           { key: "id", value: "Project #" },
           { key: "branch", value: "Branch" },
-          { key: "customerName", value: "Customer" },
+          { key: "customer", value: "Customer" },
           { key: "natureOfWork", value: "Nature of Work" },
           { key: "year", value: "Year" },
           { key: "floor", value: "Floor" },

@@ -61,6 +61,11 @@ export const PROTECTED_ROUTES: MenuRoute[] = [
         route: paths.project,
         icon: <HorizontalRule />,
       },
+      {
+        displayText: "Measurement",
+        route: "/measurement",
+        icon: <HorizontalRule />,
+      },
     ],
   },
   {

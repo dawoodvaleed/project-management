@@ -16,6 +16,7 @@ import { Project } from "./pages/Projects";
 import { Role, User } from "./pages/Security";
 import { paths, permissions } from "./config/Permissions";
 import Cookies from "js-cookie";
+import { Measurement } from "./pages/Measurement";
 
 const theme = createTheme({
   palette: {
@@ -44,6 +45,7 @@ function App() {
                 <Route element={<Home />} path="/" />
                 {userpermissions.includes(permissions.customers.name) && <Route element={<Customer />} path={paths.customer} />}
                 {userpermissions.includes(permissions.items.name) && <Route element={<Item />} path={paths.item} />}
+                <Route element={<Measurement />} path="/measurement" />
                 {userpermissions.includes(permissions.projects.name) && <Route element={<Project />} path={paths.project} />}
                 {userpermissions.includes(permissions.roles.name) && <Route element={<Role />} path={paths.role} />}
                 {userpermissions.includes(permissions.users.name) && <Route element={<User />} path={paths.user} />}
