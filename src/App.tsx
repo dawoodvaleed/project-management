@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { Project } from "./pages/Projects";
 import { Role, User } from "./pages/Security";
+import { Measurement } from "./pages/Measurement";
 
 const theme = createTheme({
   palette: {
@@ -41,6 +42,7 @@ function App() {
                 <Route element={<Home />} path="/" />
                 <Route element={<Customer />} path="/customer" />
                 <Route element={<Item />} path="/item" />
+                <Route element={<Measurement />} path="/measurement" />
                 <Route element={<Project />} path="/project" />
                 <Route element={<Role />} path="/security/role" />
                 <Route element={<User />} path="/security/user" />

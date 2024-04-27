@@ -22,7 +22,7 @@ export const NAVBAR_ROUTES = [
     icon: <LocalOffer />,
     submenuRoutes: [
       {
-        displayText: "Item Request",
+        displayText: "Item",
         route: "/item",
         icon: <HorizontalRule />,
       },
@@ -35,6 +35,11 @@ export const NAVBAR_ROUTES = [
       {
         displayText: "Project",
         route: "/project",
+        icon: <HorizontalRule />,
+      },
+      {
+        displayText: "Measurement",
+        route: "/measurement",
         icon: <HorizontalRule />,
       },
     ],

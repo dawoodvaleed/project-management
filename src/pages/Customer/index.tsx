@@ -34,8 +34,8 @@ export const Customer = () => {
       <h2>Customers</h2>
       <Table
         headers={[
-          { key: "code", value: "Code" },
-          { key: "companyName", value: "Company" },
+          { key: "id", value: "Code" },
+          { key: "name", value: "Company" },
           { key: "contactPerson", value: "Contact Person" },
           { key: "landline", value: "Landline #" },
           { key: "mobile", value: "Cell #" },
