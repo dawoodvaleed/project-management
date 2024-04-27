@@ -36,7 +36,7 @@ export const Project = () => {
       <h2>Projects</h2>
       <Table
         headers={[
-          { key: "id", value: "Project #" },
+          { key: "id", value: "Code" },
           { key: "branch", value: "Branch" },
           { key: "customer", value: "Customer" },
           { key: "natureOfWork", value: "Nature of Work" },
