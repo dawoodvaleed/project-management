@@ -1,49 +1,57 @@
-export const paths = {
+const paths = {
     user: '/security/user',
     role: '/security/role',
-    customer: '/customer',
+    customers: '/customer',
     item: '/item',
-    project: '/project'
+    projects: '/project',
+    measurement: '/measurement'
 }
 
 export const permissions = {
     security: {
         name: 'security',
         displayText: 'Security',
-        allowedPaths: []
     },
     users: {
         name: 'users',
         displayText: 'Users',
-        allowedPaths: [paths.user]
+        path: paths.user
     },
     roles: {
         name: 'roles',
         displayText: 'Roles',
-        allowedPaths: [paths.role]
+        path: paths.role
     },
 
     customers: {
         name: 'customers',
-        displayText: 'Customer',
-        allowedPaths: [paths.customer]
+        displayText: 'Customers',
+        path: paths.customers
     },
 
+    item: {
+        name: 'item',
+        displayText: 'Item',
+    },
     items: {
         name: 'items',
-        displayText: 'Item',
-        allowedPaths: [paths.item]
-    },
-    
-    itemRequest: {
-        name: 'itemRequest',
-        displayText: 'ItemRequest',
-        allowedPaths: [paths.item]
+        displayText: 'Items',
+        path: paths.item
     },
 
+
+    project: {
+        name: 'project',
+        displayText: 'Project',
+    },
     projects: {
         name: 'projects',
-        displayText: 'Project',
-        allowedPaths: [paths.project]
+        displayText: 'Projects',
+        path: paths.projects
+    },
+    measurements: {
+        name: 'measurements',
+        displayText: 'Measurements',
+        path: paths.measurement
     },
 }
