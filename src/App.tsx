@@ -14,9 +14,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { Project } from "./pages/Projects";
 import { Role, User } from "./pages/Security";
-import { permissions } from "./config/Permissions";
 import Cookies from "js-cookie";
 import { Measurement } from "./pages/Measurement";
+import { PERMISSIONS } from "./util";
 
 const theme = createTheme({
   palette: {
@@ -30,9 +30,12 @@ const theme = createTheme({
 });
 
 function App() {
-  const [showNavigation, setShowNavigation] = useState(Cookies.get("authToken") ? true : false);
+  const [showNavigation, setShowNavigation] = useState(
+    Cookies.get("authToken") ? true : false
+  );
   const userpermissions = Cookies.get("permissions") || "";
-  const { customers, items, measurements, projects, roles, users } = permissions
+  const { customers, items, measurements, projects, roles, users } =
+    PERMISSIONS;
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,12 +47,24 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />}>
                 <Route element={<Home />} path="/" />
-                {userpermissions.includes(customers.name) && <Route element={<Customer />} path={customers.path} />}
-                {userpermissions.includes(items.name) && <Route element={<Item />} path={items.path} />}
-                {userpermissions.includes(measurements.name) && <Route element={<Measurement />} path={measurements.path} />}
-                {userpermissions.includes(projects.name) && <Route element={<Project />} path={projects.path} />}
-                {userpermissions.includes(roles.name) && <Route element={<Role />} path={roles.path} />}
-                {userpermissions.includes(users.name) && <Route element={<User />} path={users.path} />}
+                {userpermissions.includes(customers.name) && (
+                  <Route element={<Customer />} path={customers.path} />
+                )}
+                {userpermissions.includes(items.name) && (
+                  <Route element={<Item />} path={items.path} />
+                )}
+                {userpermissions.includes(measurements.name) && (
+                  <Route element={<Measurement />} path={measurements.path} />
+                )}
+                {userpermissions.includes(projects.name) && (
+                  <Route element={<Project />} path={projects.path} />
+                )}
+                {userpermissions.includes(roles.name) && (
+                  <Route element={<Role />} path={roles.path} />
+                )}
+                {userpermissions.includes(users.name) && (
+                  <Route element={<User />} path={users.path} />
+                )}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
               <Route

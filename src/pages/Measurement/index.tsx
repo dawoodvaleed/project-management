@@ -4,7 +4,7 @@ import { fetchData } from "../../api";
 import { Table } from "../../components/Table";
 import { IconButton } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
-import { formatDate } from "../util";
+import { formatDate } from "../../util";
 
 const addAction = (rows: any) =>
   rows.map((row: any) => ({
