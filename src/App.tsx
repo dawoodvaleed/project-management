@@ -4,19 +4,14 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
-import { Customer } from "./pages/Customer";
-import { Item } from "./pages/Item";
 
 import PrivateRoutes from "./components/PrivateRoutes";
 import { DrawerHeader, NavBar } from "./components/Navbar";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { Project } from "./pages/Projects";
-import { Role, User } from "./pages/Security";
 import Cookies from "js-cookie";
-import { Measurement } from "./pages/Measurement";
-import { PERMISSIONS } from "./util";
+import { ALL_ROUTES } from "./utils/allRoutes";
 
 const theme = createTheme({
   palette: {
@@ -33,9 +28,8 @@ function App() {
   const [showNavigation, setShowNavigation] = useState(
     Cookies.get("authToken") ? true : false
   );
-  const userpermissions = Cookies.get("permissions") || "";
-  const { customers, items, measurements, projects, roles, users } =
-    PERMISSIONS;
+  const permissionsStr = Cookies.get("permissions") || "";
+  const permissions = permissionsStr.split(",") as (keyof typeof ALL_ROUTES)[];
 
   return (
     <ThemeProvider theme={theme}>
@@ -47,24 +41,12 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />}>
                 <Route element={<Home />} path="/" />
-                {userpermissions.includes(customers.name) && (
-                  <Route element={<Customer />} path={customers.path} />
-                )}
-                {userpermissions.includes(items.name) && (
-                  <Route element={<Item />} path={items.path} />
-                )}
-                {userpermissions.includes(measurements.name) && (
-                  <Route element={<Measurement />} path={measurements.path} />
-                )}
-                {userpermissions.includes(projects.name) && (
-                  <Route element={<Project />} path={projects.path} />
-                )}
-                {userpermissions.includes(roles.name) && (
-                  <Route element={<Role />} path={roles.path} />
-                )}
-                {userpermissions.includes(users.name) && (
-                  <Route element={<User />} path={users.path} />
-                )}
+                {permissions
+                  .filter(
+                    (permission) =>
+                      ALL_ROUTES[permission] && ALL_ROUTES[permission].route
+                  )
+                  .map((permission) => ALL_ROUTES[permission].route)}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
               <Route

@@ -5,88 +5,52 @@ import {
   HorizontalRule,
   Security,
 } from "@mui/icons-material";
-import { PERMISSIONS } from "../../util";
+import { ALL_ROUTES } from "../../utils/allRoutes";
 
 export type MenuRoute = {
   name: string;
   displayText: string;
-  route?: string;
+  path?: string;
   icon: React.ReactNode;
-  submenuRoutes?: SubmenuRoute[];
+  submenu?: Submenu[];
 };
 
-export type SubmenuRoute = {
+export type Submenu = {
   name: string;
   displayText: string;
-  route: string;
+  path: string;
   icon: React.ReactNode;
 };
 
 export const UNPROTECTED_ROUTES = [
   {
     displayText: "Dashboard",
-    route: "/",
+    path: "/",
     icon: <Monitor />,
   },
 ];
 
-export const PROTECTED_ROUTES: MenuRoute[] = [
+export const PROTECTED_ROUTES = [
+  { icon: <Groups />, ...ALL_ROUTES.customers },
   {
-    name: PERMISSIONS.customers.name,
-    displayText: PERMISSIONS.customers.displayText,
-    route: PERMISSIONS.customers.path,
-    icon: <Groups />,
-  },
-  {
-    name: PERMISSIONS.item.name,
-    displayText: PERMISSIONS.item.displayText,
     icon: <LocalOffer />,
-    submenuRoutes: [
-      {
-        name: PERMISSIONS.items.name,
-        displayText: PERMISSIONS.items.displayText,
-        route: PERMISSIONS.items.path,
-        icon: <HorizontalRule />,
-      },
-    ],
+    submenu: [{ icon: <HorizontalRule />, ...ALL_ROUTES.items }],
+    ...ALL_ROUTES.item,
   },
   {
-    name: PERMISSIONS.project.name,
-    displayText: PERMISSIONS.project.displayText,
     icon: <LocalOffer />,
-    submenuRoutes: [
-      {
-        name: PERMISSIONS.projects.name,
-        displayText: PERMISSIONS.projects.displayText,
-        route: PERMISSIONS.projects.path,
-        icon: <HorizontalRule />,
-      },
-
-      {
-        name: PERMISSIONS.measurements.name,
-        displayText: PERMISSIONS.measurements.displayText,
-        route: PERMISSIONS.measurements.path,
-        icon: <HorizontalRule />,
-      },
+    submenu: [
+      { icon: <HorizontalRule />, ...ALL_ROUTES.projects },
+      { icon: <HorizontalRule />, ...ALL_ROUTES.measurements },
     ],
+    ...ALL_ROUTES.project,
   },
   {
-    name: PERMISSIONS.security.name,
-    displayText: PERMISSIONS.security.displayText,
     icon: <Security />,
-    submenuRoutes: [
-      {
-        name: PERMISSIONS.users.name,
-        displayText: PERMISSIONS.users.displayText,
-        route: PERMISSIONS.users.path,
-        icon: <HorizontalRule />,
-      },
-      {
-        name: PERMISSIONS.roles.name,
-        displayText: PERMISSIONS.roles.displayText,
-        route: PERMISSIONS.roles.path,
-        icon: <HorizontalRule />,
-      },
+    submenu: [
+      { icon: <HorizontalRule />, ...ALL_ROUTES.users },
+      { icon: <HorizontalRule />, ...ALL_ROUTES.roles },
     ],
+    ...ALL_ROUTES.security,
   },
 ];
