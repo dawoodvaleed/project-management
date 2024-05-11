@@ -25,7 +25,7 @@ export const Project = () => {
   const { rows, total } = data;
 
   const fetchProjectData = async (queryStr: string) => {
-    const data = await fetchData("project", queryStr, addAction, navigate);
+    const data = await fetchData("project", queryStr, navigate);
     if (data) {
       setData(data);
     }
@@ -49,7 +49,7 @@ export const Project = () => {
           { key: "blockReason", value: "Block Reason" },
           { key: "action", value: "Action" },
         ]}
-        rows={rows}
+        rows={addAction(rows)}
         total={total}
         onPagination={(queryStr: string) => fetchProjectData(queryStr)}
       />

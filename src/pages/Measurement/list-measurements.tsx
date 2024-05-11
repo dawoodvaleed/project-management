@@ -30,7 +30,7 @@ export const Measurement = () => {
   const { rows, total } = data;
 
   const fetchMeasurementData = async (queryStr: string) => {
-    const data = await fetchData("measurement", queryStr, addAction, navigate);
+    const data = await fetchData("measurement", queryStr, navigate);
     if (data) {
       setData(data);
     }
@@ -54,7 +54,7 @@ export const Measurement = () => {
           { key: "breadth", value: "Breath" },
           { key: "action", value: "Action" },
         ]}
-        rows={rows}
+        rows={addAction(rows)}
         total={total}
         onPagination={(queryStr: string) => fetchMeasurementData(queryStr)}
       />

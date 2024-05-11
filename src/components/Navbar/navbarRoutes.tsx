@@ -42,6 +42,7 @@ export const PROTECTED_ROUTES = [
     submenu: [
       { icon: <HorizontalRule />, ...ALL_ROUTES.projects },
       { icon: <HorizontalRule />, ...ALL_ROUTES.measurements },
+      { icon: <HorizontalRule />, ...ALL_ROUTES.addMeasurement },
     ],
     ...ALL_ROUTES.project,
   },

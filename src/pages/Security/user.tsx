@@ -24,7 +24,7 @@ export const User = () => {
   const { rows, total } = data;
 
   const fetchUserData = async (queryStr: string) => {
-    const data = await fetchData("user", queryStr, addAction, navigate);
+    const data = await fetchData("user", queryStr, navigate);
     if (data) {
       setData(data);
     }
@@ -39,7 +39,7 @@ export const User = () => {
           { key: "role", value: "Role" },
           { key: "action", value: "Action" },
         ]}
-        rows={rows}
+        rows={addAction(rows)}
         total={total}
         onPagination={(queryStr: string) => fetchUserData(queryStr)}
       />

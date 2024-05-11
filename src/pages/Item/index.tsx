@@ -15,7 +15,7 @@ export const Item = () => {
   const { rows, total } = data;
 
   const fetchItemData = async (queryStr: string) => {
-    const data = await fetchData("item", queryStr, addAction, navigate);
+    const data = await fetchData("item", queryStr, navigate);
     if (data) {
       setData(data);
     }
@@ -34,7 +34,7 @@ export const Item = () => {
           { key: "unitOfMeasurement", value: "UOM" },
           { key: "materialPercentage", value: "Material Percentage" },
         ]}
-        rows={rows}
+        rows={addAction(rows)}
         total={total}
         onPagination={(queryStr: string) => fetchItemData(queryStr)}
       />

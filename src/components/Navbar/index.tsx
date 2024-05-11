@@ -31,7 +31,7 @@ import {
   PROTECTED_ROUTES,
 } from "./navbarRoutes";
 
-const drawerWidth = 200;
+const drawerWidth = 220;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,

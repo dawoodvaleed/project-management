@@ -2,7 +2,7 @@ import { Route } from "react-router-dom";
 import { Customer } from "../pages/Customer";
 import { Role } from "../pages/Security";
 import { Item } from "../pages/Item";
-import { Measurement } from "../pages/Measurement";
+import { AddMeasurement, Measurement } from "../pages/Measurement";
 import { Project } from "../pages/Projects";
 
 const PATHS = {
@@ -12,6 +12,7 @@ const PATHS = {
   items: "/item",
   measurements: "/measurement",
   projects: "/project",
+  addMeasurement: "/add-measurement",
 };
 
 export const ALL_ROUTES = {
@@ -72,5 +73,11 @@ export const ALL_ROUTES = {
     displayText: "Measurements",
     path: PATHS.measurements,
     route: <Route element={<Measurement />} path={PATHS.measurements} />,
+  },
+  addMeasurement: {
+    name: "addMeasurement",
+    displayText: "Add Measurement",
+    path: PATHS.addMeasurement,
+    route: <Route element={<AddMeasurement />} path={PATHS.addMeasurement} />,
   },
 };

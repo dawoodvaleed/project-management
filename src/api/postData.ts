@@ -1,24 +1,17 @@
 import Cookies from "js-cookie";
 import api from ".";
 
-export const fetchData = async (
+export const postData = async (
   uri: string,
-  queryStr: string,
+  payload: any,
   navigate: Function
-): Promise<
-  | {
-      rows: never[];
-      total: number;
-    }
-  | undefined
-> => {
+): Promise<any> => {
   try {
     const authToken = Cookies.get("authToken");
-    const { data } = await api.get(`/${uri}${queryStr}`, {
+    const { data } = await api.post(`/${uri}`, payload, {
       headers: { Authorization: authToken },
     });
-    const [rows, total] = data;
-    return { rows, total };
+    return data;
   } catch (err: any) {
     if (err.response.status === 401) {
       Cookies.remove("authToken");

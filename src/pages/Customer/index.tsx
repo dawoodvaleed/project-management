@@ -23,7 +23,7 @@ export const Customer = () => {
   const { rows, total } = data;
 
   const fetchCustomerData = async (queryStr: string) => {
-    const data = await fetchData("customer", queryStr, addAction, navigate);
+    const data = await fetchData("customer", queryStr, navigate);
     if (data) {
       setData(data);
     }
@@ -45,7 +45,7 @@ export const Customer = () => {
           { key: "incomeTax", value: "Income Tax" },
           { key: "action", value: "Action" },
         ]}
-        rows={rows}
+        rows={addAction(rows)}
         total={total}
         onPagination={(queryStr: string) => fetchCustomerData(queryStr)}
       />
