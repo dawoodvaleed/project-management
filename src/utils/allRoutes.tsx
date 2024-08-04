@@ -77,13 +77,13 @@ export const ALL_ROUTES = {
   },
   measurements: {
     name: "measurements",
-    displayText: "Measurements",
+    displayText: "Measurement List",
     path: PATHS.measurements,
     route: <Route element={<Measurement />} path={PATHS.measurements} />,
   },
   addMeasurement: {
     name: "addMeasurement",
-    displayText: "Add Measurement",
+    displayText: "Measurements",
     path: PATHS.addMeasurement,
     route: <Route element={<AddMeasurement />} path={PATHS.addMeasurement} />,
   },

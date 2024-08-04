@@ -61,7 +61,7 @@ export const Measurement = () => {
         template="MEASUREMENT"
         data={modalData}
       />
-      <h2>Measurements</h2>
+      <h2>All Project Measurement List</h2>
       <Table
         headers={[
           { key: "projectName", value: "Project" },

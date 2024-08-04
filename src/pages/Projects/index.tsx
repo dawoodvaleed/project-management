@@ -52,7 +52,7 @@ export const Project = () => {
         template="PROJECT"
         data={modalData}
       />
-      <h2>Projects</h2>
+      <h2>Projects Info</h2>
       <Table
         headers={[
           { key: "id", value: "Code" },
