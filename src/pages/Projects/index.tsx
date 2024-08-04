@@ -4,24 +4,16 @@ import { fetchData } from "../../api";
 import { Table } from "../../components/Table";
 import { IconButton } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
-
-const addAction = (rows: any) =>
-  rows.map((row: any) => ({
-    ...row,
-    customer: `${row.customer.name} (${row.customer.province})`,
-    verification: row.isVerified ? "Un-Verified	" : "Verified",
-    action: (
-      // TODO: add modal logic here to view detail
-      <IconButton color="inherit" onClick={() => console.log(row.id)}>
-        <Visibility />
-      </IconButton>
-    ),
-  }));
+import { ModalType } from "../../utils/commonTypes";
+import { CustomModal } from "../../components/Modal";
 
 export const Project = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState({ rows: [], total: 0 });
+  const [openModal, setOpenModal] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>("READ");
+  const [modalData, setModalData] = useState();
   const { rows, total } = data;
 
   const fetchProjectData = async (queryStr: string) => {
@@ -31,8 +23,35 @@ export const Project = () => {
     }
   };
 
+  const toggleModal = (type?: ModalType, data?: any) => {
+    setModalData(data);
+    if (type) {
+      setModalType(type);
+    }
+    setOpenModal(!openModal);
+  };
+
+  const addAction = (rows: any) =>
+    rows.map((row: any) => ({
+      ...row,
+      customer: `${row.customer.name} (${row.customer.province})`,
+      verification: row.isVerified ? "Un-Verified	" : "Verified",
+      action: (
+        <IconButton color="inherit" onClick={() => toggleModal("READ", row)}>
+          <Visibility />
+        </IconButton>
+      ),
+    }));
+
   return (
     <div className="container">
+      <CustomModal
+        type={modalType}
+        open={openModal}
+        onClose={toggleModal}
+        template="PROJECT"
+        data={modalData}
+      />
       <h2>Projects</h2>
       <Table
         headers={[

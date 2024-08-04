@@ -22,15 +22,23 @@ type TableProps = {
   headers: { key: string; value: string }[];
   rows: { key: string; value: string }[];
   total: number;
-  onPagination: Function;
+  onPagination?: Function;
+  shouldPaginate?: Boolean;
 };
 
-export const Table = ({ headers, rows, total, onPagination }: TableProps) => {
+export const Table = ({
+  headers,
+  rows,
+  total,
+  onPagination,
+  shouldPaginate = true,
+}: TableProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    onPagination(`?limit=${rowsPerPage}&offset=${page * rowsPerPage}`);
+    if (onPagination)
+      onPagination(`?limit=${rowsPerPage}&offset=${page * rowsPerPage}`);
   }, [page, rowsPerPage]);
 
   const handleChangePage = (
@@ -53,7 +61,9 @@ export const Table = ({ headers, rows, total, onPagination }: TableProps) => {
         <TableHead>
           <TableRow>
             {headers.map((header) => (
-              <TableCell key={header.key}>{header.value}</TableCell>
+              <TableCell sx={{ color: "white" }} key={header.key}>
+                {header.value}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -71,20 +81,22 @@ export const Table = ({ headers, rows, total, onPagination }: TableProps) => {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[10, 20, 30]}
-              count={total}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              slotProps={{ select: { native: true } }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
+        {shouldPaginate && (
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, 20, 30]}
+                count={total}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                slotProps={{ select: { native: true } }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
+        )}
       </MuiTable>
     </Paper>
   );

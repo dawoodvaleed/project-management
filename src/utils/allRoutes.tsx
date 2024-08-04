@@ -1,13 +1,14 @@
 import { Route } from "react-router-dom";
 import { Customer } from "../pages/Customer";
-import { Role } from "../pages/Security";
 import { Item } from "../pages/Item";
 import { AddMeasurement, Measurement } from "../pages/Measurement";
+import { Permissions, Role, User } from "../pages/Security";
 import { Project } from "../pages/Projects";
 
 const PATHS = {
   users: "/security/user",
   roles: "/security/role",
+  permissions: "/security/role/permissions/:id",
   customers: "/customer",
   items: "/item",
   measurements: "/measurement",
@@ -26,13 +27,19 @@ export const ALL_ROUTES = {
     name: "users",
     displayText: "Users",
     path: PATHS.users,
-    route: <Route element={<Customer />} path={PATHS.users} />,
+    route: <Route element={<User />} path={PATHS.users} />,
   },
   roles: {
     name: "roles",
     displayText: "Roles",
     path: PATHS.roles,
     route: <Route element={<Role />} path={PATHS.roles} />,
+  },
+  permissions: {
+    name: "permissions",
+    displayText: "Permissions",
+    path: PATHS.permissions,
+    route: <Route element={<Permissions />} path={PATHS.permissions} />,
   },
 
   // CUSTOMER
