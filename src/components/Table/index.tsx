@@ -61,9 +61,7 @@ export const Table = ({
         <TableHead>
           <TableRow>
             {headers.map((header) => (
-              <TableCell sx={{ color: "white" }} key={header.key}>
-                {header.value}
-              </TableCell>
+              <TableCell key={header.key}>{header.value}</TableCell>
             ))}
           </TableRow>
         </TableHead>
