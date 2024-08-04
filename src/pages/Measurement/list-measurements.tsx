@@ -3,30 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../api";
 import { Table } from "../../components/Table";
 import { IconButton } from "@mui/material";
-import { Visibility } from "@mui/icons-material";
 import { formatDate } from "../../utils/util";
-
-const addAction = (rows: any) =>
-  rows.map((row: any) => ({
-    ...row,
-    date: formatDate(row.date),
-    projectName: `${row.project.id} - ${row.project.description}`,
-    customerName: row.project.customer.name,
-    branch: row.project.branch,
-    itemName: `${row.item.id} - ${row.item.description}`,
-    unit: row.item.unitOfMeasurement,
-    action: (
-      // TODO: add modal logic here to view detail
-      <IconButton color="inherit" onClick={() => console.log(row.id)}>
-        <Visibility />
-      </IconButton>
-    ),
-  }));
+import { Delete } from "@mui/icons-material";
+import { ModalType } from "../../utils/commonTypes";
+import { CustomModal } from "../../components/Modal";
 
 export const Measurement = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState({ rows: [], total: 0 });
+  const [openModal, setOpenModal] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>("READ");
+  const [modalData, setModalData] = useState();
   const { rows, total } = data;
 
   const fetchMeasurementData = async (queryStr: string) => {
@@ -36,8 +24,43 @@ export const Measurement = () => {
     }
   };
 
+  const toggleModal = (type?: ModalType, data?: any) => {
+    setModalData(data);
+    if (type) {
+      setModalType(type);
+    }
+    setOpenModal(!openModal);
+  };
+
+  const deleteMeasurement = async (id: string | number) => {};
+
+  const addAction = (rows: any) =>
+    rows.map((row: any) => ({
+      ...row,
+      date: formatDate(row.date),
+      projectName: `${row.project.id} - ${row.project.description}`,
+      customerName: row.project.customer.name,
+      branch: row.project.branch,
+      itemName: `${row.item.id} - ${row.item.description}`,
+      unit: row.item.unitOfMeasurement,
+      action: (
+        <IconButton color="inherit" onClick={() => toggleModal("DELETE", row)}>
+          <Delete />
+        </IconButton>
+      ),
+    }));
+
   return (
     <div className="container">
+      <CustomModal
+        type={modalType}
+        open={openModal}
+        onClose={toggleModal}
+        // onSave={saveUser}
+        onDelete={deleteMeasurement}
+        template="MEASUREMENT"
+        data={modalData}
+      />
       <h2>Measurements</h2>
       <Table
         headers={[
