@@ -119,7 +119,6 @@ export const Role = () => {
           { key: "name", value: "Name" },
           { key: "description", value: "Description" },
           { key: "status", value: "Status" },
-          { key: "permissions", value: "Permissions" },
           { key: "edit", value: "Edit" },
           { key: "permission", value: "Permission" },
         ]}

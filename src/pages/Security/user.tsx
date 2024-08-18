@@ -20,11 +20,7 @@ export const User = () => {
 
   const fetchUserData = async (queryStr: string) => {
     const data: any = await fetchData("user", queryStr, navigate);
-    const roleDataRes: any = await fetchData(
-      "role",
-      "",
-      navigate
-    );
+    const roleDataRes: any = await fetchData("role", "", navigate);
 
     if (!roleDataRes) {
       return;
@@ -32,10 +28,6 @@ export const User = () => {
     setRoleData(roleDataRes.rows);
     if (data) {
       setData(data);
-      data.rows = data?.rows.map((d: any) => ({
-        ...d,
-        role: roleDataRes.rows.find((c: any) => c.id === d.role)?.name || "",
-      }));
     }
   };
 
@@ -72,7 +64,7 @@ export const User = () => {
   const addAction = (rows: any) =>
     rows.map((row: any) => ({
       ...row,
-      role: row.role?.id,
+      role: row.role?.name,
       action: (
         // TODO: add modal logic here to view detail
         <>

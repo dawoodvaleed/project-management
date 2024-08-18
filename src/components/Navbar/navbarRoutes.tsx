@@ -4,6 +4,7 @@ import {
   LocalOffer,
   HorizontalRule,
   Security,
+  SignalCellularAlt,
 } from "@mui/icons-material";
 import { ALL_ROUTES } from "../../utils/allRoutes";
 
@@ -36,6 +37,11 @@ export const PROTECTED_ROUTES = [
     icon: <LocalOffer />,
     submenu: [{ icon: <HorizontalRule />, ...ALL_ROUTES.items }],
     ...ALL_ROUTES.item,
+  },
+  {
+    icon: <SignalCellularAlt />,
+    submenu: [{ icon: <HorizontalRule />, ...ALL_ROUTES.projectProgressView }],
+    ...ALL_ROUTES.projectProgress,
   },
   {
     icon: <LocalOffer />,

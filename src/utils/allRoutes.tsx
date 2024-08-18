@@ -4,6 +4,7 @@ import { Item } from "../pages/Item";
 import { AddMeasurement, Measurement } from "../pages/Measurement";
 import { Permissions, Role, User } from "../pages/Security";
 import { Project } from "../pages/Projects";
+import { ProjectProgress } from "../pages/ProjectProgress";
 
 const PATHS = {
   users: "/security/user",
@@ -14,6 +15,7 @@ const PATHS = {
   measurements: "/measurement",
   projects: "/project",
   addMeasurement: "/add-measurement",
+  projectProgress: "/project-progress"
 };
 
 export const ALL_ROUTES = {
@@ -53,7 +55,7 @@ export const ALL_ROUTES = {
   // ITEM
   item: {
     name: "item",
-    displayText: "Item",
+    displayText: "Items",
     route: null,
   },
   items: {
@@ -66,7 +68,7 @@ export const ALL_ROUTES = {
   // PROJECT
   project: {
     name: "project",
-    displayText: "Project",
+    displayText: "Projects",
     route: null,
   },
   projects: {
@@ -87,4 +89,17 @@ export const ALL_ROUTES = {
     path: PATHS.addMeasurement,
     route: <Route element={<AddMeasurement />} path={PATHS.addMeasurement} />,
   },
+
+  // PROJECT PROGRESS
+  projectProgress: {
+    name: "projectProgress",
+    displayText: "Project Progress",
+    route: null,
+  },
+  projectProgressView: {
+    name: "projectProgressView",
+    displayText: "Project Progress",
+    path: PATHS.projectProgress,
+    route: <Route element={<ProjectProgress />} path={PATHS.projectProgress} />,
+  }
 };

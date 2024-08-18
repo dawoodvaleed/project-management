@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { Table } from "../../components/Table";
-// import { fetchData } from "../../api";
 import { Button, Checkbox, Divider, Grid, Paper } from "@mui/material";
 import { ALL_ROUTES } from "../../utils/allRoutes";
-// import Cookies from "js-cookie";
 import { useLocation, useNavigate } from "react-router-dom";
 import { postData } from "../../api";
 
@@ -16,30 +13,38 @@ export const Permissions = () => {
     rows: [],
     total: 0,
   });
-  const [activeData, setActiveData] = useState("All-Module");
-  const [permissionsArr, setPermissionsArr] = useState<any[]>([]);
-  // const [permissions, setPermissions] = useState<(keyof typeof ALL_ROUTES)[]>([]);
+  const [activeData, setActiveData] = useState("allModules");
+  const [fetchedPermissions, setFetchedPermissions] = useState<any[]>([]);
 
   const routesData: any[] = [
     {
+      name: "allModules",
       displayText: "All Modules",
-      name: "All-Module",
       permissions: [
         ALL_ROUTES.customers,
         ALL_ROUTES.item,
+        ALL_ROUTES.projectProgress,
         ALL_ROUTES.project,
         ALL_ROUTES.security,
       ],
     },
     { ...ALL_ROUTES.customers, permissions: [ALL_ROUTES.customers] },
-    { ...ALL_ROUTES.item, permissions: [ALL_ROUTES.items] },
+    { ...ALL_ROUTES.item, permissions: [ALL_ROUTES.item, ALL_ROUTES.items] },
+    {
+      ...ALL_ROUTES.projectProgress,
+      permissions: [ALL_ROUTES.projectProgress, ALL_ROUTES.projectProgressView],
+    },
     {
       ...ALL_ROUTES.project,
-      permissions: [ALL_ROUTES.projects, ALL_ROUTES.measurements],
+      permissions: [
+        ALL_ROUTES.project,
+        ALL_ROUTES.projects,
+        ALL_ROUTES.measurements,
+      ],
     },
     {
       ...ALL_ROUTES.security,
-      permissions: [ALL_ROUTES.users, ALL_ROUTES.roles],
+      permissions: [ALL_ROUTES.security, ALL_ROUTES.users, ALL_ROUTES.roles],
     },
   ];
 
@@ -57,46 +62,49 @@ export const Permissions = () => {
   // };
 
   const handleSave = async () => {
-    const permissions = permissionsArr.join(",");
-    console.log("permiss", permissions);
-    console.log("roleData", roleData);
+    const permissions = fetchedPermissions.join(",");
     await postData("role", { ...roleData, permissions }, navigate);
     navigate(-1);
   };
 
   const initializePermissions = () => {
     const rows: any[] = routesData
-      .find((d) => d.name === activeData)
-      ?.permissions.map((row: any) => {
-        return {
-          name: row.displayText,
-          allow: (
-            //TODO: need to add api to update permission on change
-            <Checkbox
-              defaultChecked={permissionsArr.includes(row.name)}
-              // value={true}
-              checked={permissionsArr.includes(row.name)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setPermissionsArr((d) => [...d, row.name]);
-                } else {
-                  setPermissionsArr((d) => d.filter((v) => v !== row.name));
-                }
-              }}
-            />
-          ),
-        };
-      });
+      .find(({ name }) => name === activeData)
+      ?.permissions.map((permission: any) => ({
+        name: `${permission.displayText}${
+          permission.route === null ? " (All Options)" : ""
+        }`,
+        allow: (
+          <Checkbox
+            defaultChecked={fetchedPermissions.includes(permission.name)}
+            checked={fetchedPermissions.includes(permission.name)}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setFetchedPermissions((permissions) => [
+                  ...permissions,
+                  permission.name,
+                ]);
+              } else {
+                setFetchedPermissions((permissions) =>
+                  permissions.filter(
+                    (permission) => permission !== permission.name
+                  )
+                );
+              }
+            }}
+          />
+        ),
+      }));
     setData({ rows, total: rows.length });
   };
 
   useEffect(() => {
-    setPermissionsArr(permissions.split(","));
+    setFetchedPermissions(permissions.split(","));
   }, []);
 
   useEffect(() => {
     initializePermissions();
-  }, [activeData, permissionsArr]);
+  }, [activeData, fetchedPermissions]);
 
   return (
     <div className="container">
@@ -147,7 +155,6 @@ export const Permissions = () => {
             ]}
             rows={data.rows}
             total={data.total}
-            // onPagination={(queryStr: string) => fetchPermisssionsData(queryStr)}
             shouldPaginate={false}
           />
         </Grid>
