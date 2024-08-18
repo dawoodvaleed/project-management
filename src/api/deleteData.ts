@@ -3,7 +3,7 @@ import api from ".";
 
 export const deleteData = async (
   uri: string,
-  id: any,
+  id: string | number,
   navigate: Function
 ): Promise<
   | {
