@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchData } from "../../api";
+import { fetchData, fetchDetails } from "../../api";
 import { Table } from "../../components/Table";
 import { IconButton } from "@mui/material";
 import { FormatListBulleted } from "@mui/icons-material";
@@ -24,6 +24,13 @@ export const ProjectProgress = () => {
     }
   };
 
+  const fetchProjectDetails = async (id: string) => {
+    const data = await fetchDetails(`project/${id}`, navigate);
+    if (data) {
+      toggleModal("READ", data);
+    }
+  };
+
   const toggleModal = (type?: ModalType, data?: any) => {
     setModalData(data);
     if (type) {
@@ -39,7 +46,7 @@ export const ProjectProgress = () => {
       orderDate: formatDate(row.orderDate),
       branch: `${row.branch} - ${row.city}`,
       action: (
-        <IconButton color="inherit" onClick={() => toggleModal("READ", row)}>
+        <IconButton color="inherit" onClick={() => fetchProjectDetails(row.id)}>
           <FormatListBulleted />
         </IconButton>
       ),

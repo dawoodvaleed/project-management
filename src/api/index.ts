@@ -7,3 +7,4 @@ export default axios.create({
 export * from "./fetchData";
 export * from "./postData";
 export * from "./deleteData";
+export * from "./fetchDetails";
