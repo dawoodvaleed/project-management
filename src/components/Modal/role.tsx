@@ -6,18 +6,24 @@ export const RoleModal = ({ data, type, dataRef }: ModalChildProps) => {
   const [roleName, setRoleName] = useState(data?.name);
   const [desc, setDesc] = useState(data?.description);
   const [status, setStatus] = useState(
-    data?.staus === false ? "deactive" : "active"
+    data?.status === false ? "deactive" : "active"
   );
 
-  const handleChange = (value: string, setState: (args: any) => void) =>
+  const handleChange = (key: string, value: string, setState: (args: any) => void) => {
+    if (dataRef.current === 'status') {
+      dataRef.current[key] = value === 'active' ? true : false;
+    } else {
+      dataRef.current[key] = value
+    }
     setState(value);
+  }
 
   useEffect(() => {
     if (data) {
       dataRef.current = {
         name: data.name,
         description: data.description,
-        staus: data.staus,
+        status: data.status,
       };
     }
   }, []);
@@ -50,7 +56,7 @@ export const RoleModal = ({ data, type, dataRef }: ModalChildProps) => {
             label="Role Name"
             variant="outlined"
             fullWidth
-            onChange={(e) => handleChange(e.target.value, setRoleName)}
+            onChange={(e) => handleChange('name', e.target.value, setRoleName)}
             value={roleName}
             required
             disabled={type === "READ"}
@@ -67,10 +73,10 @@ export const RoleModal = ({ data, type, dataRef }: ModalChildProps) => {
             label="Description"
             variant="outlined"
             fullWidth
-            onChange={(e) => handleChange(e.target.value, setDesc)}
+            onChange={(e) => handleChange('description', e.target.value, setDesc)}
             value={desc}
             disabled={type === "READ"}
-            // required
+          // required
           />
         </Grid>
       </Grid>
@@ -84,7 +90,7 @@ export const RoleModal = ({ data, type, dataRef }: ModalChildProps) => {
             value={status}
             label="Status"
             fullWidth
-            onChange={(e) => handleChange(e.target.value, setStatus)}
+            onChange={(e) => handleChange('status', e.target.value, setStatus)}
             disabled={type === "READ"}
           >
             <MenuItem value="active">Active</MenuItem>

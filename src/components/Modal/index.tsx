@@ -1,24 +1,15 @@
-// import { useState } from "react";
-
+import { useRef, useState } from "react";
 import {
   Modal,
-  //   Typography,
   Box,
-  // Button,
-  //   IconButton,
   Button,
   CircularProgress,
 } from "@mui/material";
-// import { Close } from "@mui/icons-material";
 import { RoleModal } from "./role";
-import {
-  ModalTemplate,
-  ModalType,
-  ModalTypeEnum,
-} from "../../utils/commonTypes";
+import { ModalTemplate, ModalType, ModalTypeEnum } from "../../utils/commonTypes";
 import { UserModal } from "./user";
-import { useRef, useState } from "react";
 import { ProjectModal } from "./project";
+import { ProjectProgressModal } from "./projectprogress";
 
 type ModalProps = {
   open: boolean;
@@ -41,6 +32,7 @@ export const CustomModal = ({
   data,
   roleData,
 }: ModalProps) => {
+  console.log(data);
   const dataRef = useRef({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,6 +49,7 @@ export const CustomModal = ({
       />
     ),
     PROJECT: <ProjectModal type={type} data={data} />,
+    PROJECT_PROGRESS: <ProjectProgressModal type={type} data={data} />,
   };
 
   return (
@@ -74,13 +67,20 @@ export const CustomModal = ({
           transform: "translate(-50%, -50%)",
           bgcolor: "background.paper",
           boxShadow: 24,
-          width: 600,
-          //   maxWidth: 600,
-          minWidth: 300,
+          maxWidth: "95vw", // Ensures responsiveness
+          width: "auto",
+          maxHeight: "90vh",
+          overflowY: "auto",
+          padding: 2,
         }}
       >
         <header
-          style={{ backgroundColor: "#36459b", color: "#fff", padding: 20 }}
+          style={{
+            backgroundColor: "#36459b",
+            color: "#fff",
+            padding: "16px 20px",
+            borderBottom: "1px solid #ccc",
+          }}
         >
           <h4 style={{ margin: 0 }}>
             {ModalTypeEnum[type]} {template}
@@ -142,9 +142,7 @@ export const CustomModal = ({
                   >
                     {type === "WRITE" ? "Save" : "Update"}
                   </Button>
-                ) : (
-                  <></>
-                )}
+                ) : null}
               </div>
             </>
           )}

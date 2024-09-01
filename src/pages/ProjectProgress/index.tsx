@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchData, fetchDetails } from "../../api";
+import { fetchData, fetchDetails, updateDetails } from "../../api";
 import { Table } from "../../components/Table";
 import { IconButton } from "@mui/material";
 import { FormatListBulleted } from "@mui/icons-material";
 import { ModalType } from "../../utils/commonTypes";
-import { CustomModal } from "../../components/Modal";
 import { formatDate } from "../../utils/util";
+import { CustomModal } from "../../components/Modal";
 
 export const ProjectProgress = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export const ProjectProgress = () => {
   const [data, setData] = useState({ rows: [], total: 0 });
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState<ModalType>("READ");
-  const [modalData, setModalData] = useState();
+  const [modalData, setModalData] = useState<any>(null);
   const { rows, total } = data;
 
   const fetchProjectData = async (queryStr: string) => {
@@ -29,6 +29,13 @@ export const ProjectProgress = () => {
     if (data) {
       toggleModal("READ", data);
     }
+  };
+
+  const UpdateProjectDetails = async (id: string) => {
+    // const data = await updateDetails(`measurement/${id}`, navigate);
+    // if (data) {
+    //   toggleModal("READ", data);
+    // }
   };
 
   const toggleModal = (type?: ModalType, data?: any) => {
@@ -58,10 +65,11 @@ export const ProjectProgress = () => {
         type={modalType}
         open={openModal}
         onClose={toggleModal}
-        template="PROJECT"
+        template="PROJECT_PROGRESS"
         data={modalData}
       />
-      <h2>Projects Info</h2>
+
+      <h2>Project Progress</h2>
       <Table
         headers={[
           { key: "id", value: "Project" },
