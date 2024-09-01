@@ -21,7 +21,7 @@ import {
 type TableProps = {
   headers: { key: string; value: string }[];
   rows: { key: string; value: string }[];
-  total: number;
+  total?: number;
   onPagination?: Function;
   shouldPaginate?: Boolean;
 };
@@ -79,7 +79,7 @@ export const Table = ({
             </TableRow>
           ))}
         </TableBody>
-        {shouldPaginate && (
+        {shouldPaginate && total ? (
           <TableFooter>
             <TableRow>
               <TablePagination
@@ -94,7 +94,7 @@ export const Table = ({
               />
             </TableRow>
           </TableFooter>
-        )}
+        ) : null}
       </MuiTable>
     </Paper>
   );

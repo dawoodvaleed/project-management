@@ -32,7 +32,6 @@ export const CustomModal = ({
   data,
   roleData,
 }: ModalProps) => {
-  console.log(data);
   const dataRef = useRef({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,7 +66,7 @@ export const CustomModal = ({
           transform: "translate(-50%, -50%)",
           bgcolor: "background.paper",
           boxShadow: 24,
-          maxWidth: "95vw", // Ensures responsiveness
+          maxWidth: "95vw",
           width: "auto",
           maxHeight: "90vh",
           overflowY: "auto",

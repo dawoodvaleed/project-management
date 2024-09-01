@@ -1,5 +1,8 @@
 export const formatDate = (date: string) =>
-  date ? new Date(date).toLocaleDateString("en-GB") : "";
+  date ? new Date(date).toLocaleDateString("en-PK") : "";
+
+export const formatDateTime = (date: string) =>
+  date ? new Date(date).toLocaleString("en-PK") : "";
 
 export const formatMuiDate = (date: Date) => {
   return `${date.getFullYear()}-${(date.getMonth() + 1)
