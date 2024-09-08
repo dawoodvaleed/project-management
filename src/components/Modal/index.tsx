@@ -20,6 +20,7 @@ type ModalProps = {
   data?: any;
   roleData?: any[];
   onDelete?: (id: string | number) => Promise<void>;
+  onUpdate?: (data: any) => Promise<void>;
 };
 
 export const CustomModal = ({
@@ -27,6 +28,7 @@ export const CustomModal = ({
   onClose,
   onSave,
   onDelete,
+  onUpdate,
   type,
   template,
   data,
@@ -48,8 +50,13 @@ export const CustomModal = ({
       />
     ),
     PROJECT: <ProjectModal type={type} data={data} />,
-    PROJECT_PROGRESS: <ProjectProgressModal type={type} data={data} />,
+    PROJECT_PROGRESS: <ProjectProgressModal type={type} data={data} dataRef={dataRef} />,
   };
+  const handleSubmit = async (cbFun: any) => {
+    setIsLoading(true)
+    await cbFun()
+    setIsLoading(false)
+  }
 
   return (
     <Modal
@@ -109,10 +116,7 @@ export const CustomModal = ({
               >
                 <Button onClick={onClose}>No</Button>
                 <Button
-                  onClick={() => {
-                    setIsLoading(true);
-                    onDelete(data.id);
-                  }}
+                  onClick={() => handleSubmit(() => onDelete(data.id))}
                   variant="contained"
                 >
                   Yes
@@ -131,17 +135,25 @@ export const CustomModal = ({
                 }}
               >
                 <Button onClick={onClose}>Close</Button>
-                {type !== "READ" && onSave ? (
-                  <Button
-                    onClick={() => {
-                      setIsLoading(true);
-                      onSave(dataRef.current);
-                    }}
-                    variant="contained"
-                  >
-                    {type === "WRITE" ? "Save" : "Update"}
-                  </Button>
-                ) : null}
+                {
+                  type !== 'READ' && (
+                    type === 'UPDATE' && (onUpdate) ? (
+                      <Button
+                        onClick={() => handleSubmit(() => onUpdate(dataRef.current))}
+                        variant="contained"
+                      >
+                        Update
+                      </Button>
+                    ) : type === 'WRITE' && onSave ? (
+                      <Button
+                      onClick = {() => handleSubmit(() => onSave(dataRef.current))}
+                      variant="contained"
+                      >
+                        Save
+                      </Button>
+                    ) : null
+                  )
+                }
               </div>
             </>
           )}

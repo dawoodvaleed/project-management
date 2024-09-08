@@ -8,7 +8,7 @@ export const updateDetails = async (
 ): Promise<unknown> => {
   try {
     const authToken = Cookies.get("authToken");
-    const { data } = await api.patch(`/${uri}`, payload, {
+    const { data } = await api.put(`/${uri}`, payload, {
       headers: { Authorization: authToken },
     });
     return data;

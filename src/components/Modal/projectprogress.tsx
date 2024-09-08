@@ -15,10 +15,11 @@ interface ProjectProgressModalProps {
     measurements: any[];
   };
   type: ModalType;
+  dataRef: any;
 }
 
 export const ProjectProgressModal: FC<ProjectProgressModalProps> = ({
-  data,
+  data, dataRef
 }) => {
   const [measurements, setMeasurements] = useState(
     data?.measurements.reduce(
@@ -50,14 +51,16 @@ export const ProjectProgressModal: FC<ProjectProgressModalProps> = ({
   ];
 
   const handleOnChange = ({ currentTarget: { id, name, value } }: any) => {
-    setMeasurements({
+    const updatedData = {
       ...measurements,
       [id]: {
         ...measurements[id],
         [name]: value,
         isChanged: true,
       },
-    });
+    }
+    setMeasurements(updatedData);
+    dataRef.current = updatedData;
   };
 
   const addAction = (rows: any) =>
@@ -123,7 +126,7 @@ export const ProjectProgressModal: FC<ProjectProgressModalProps> = ({
             { key: "work", value: "Work" },
             { key: "item", value: "Item" },
             { key: "uom", value: "UOM" },
-            { key: "numberOfItems", value: "Qty" },
+            { key: "  ", value: "Qty" },
             { key: "rate", value: "Price" },
             { key: "amount", value: "Amount" },
             { key: "progressPercentage", value: "Progress %" },
