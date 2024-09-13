@@ -27,15 +27,26 @@ export const ProjectProgress = () => {
   const fetchProjectDetails = async (id: string) => {
     const data = await fetchDetails(`project/${id}`, navigate);
     if (data) {
-      toggleModal("READ", data);
+      toggleModal('UPDATE', data);
     }
   };
 
-  const UpdateProjectDetails = async (id: string) => {
-    // const data = await updateDetails(`measurement/${id}`, navigate);
-    // if (data) {
-    //   toggleModal("READ", data);
-    // }
+  const UpdateProjectDetails = async (data: any) => {
+    try {
+      const updateValues = modalData.measurements.filter((d: any) => data[d.id].isChanged).map((d: any) => ({ ...d, ...data[d.id] }))
+      console.log('data===>', data);
+      const res = await Promise.allSettled(
+        updateValues.map((measurement: any) => updateDetails(`measurement/${measurement.id}`, measurement, navigate))
+      )
+      // const res = await Promise.allSettled(data.measurements.map(measurement => updateDetails(`measurement/${measurement.id}`, measurement, navigate)))
+      // console.log('res===?', res)
+      await fetchProjectData("");
+    } catch (e) {
+      console.error("error==>", e);
+    } finally {
+      setOpenModal(false);
+    }
+    console.log(modalData);
   };
 
   const toggleModal = (type?: ModalType, data?: any) => {
@@ -65,6 +76,7 @@ export const ProjectProgress = () => {
         type={modalType}
         open={openModal}
         onClose={toggleModal}
+        onUpdate={UpdateProjectDetails}
         template="PROJECT_PROGRESS"
         data={modalData}
       />

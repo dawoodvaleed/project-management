@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table } from "../../components/Table";
-import { fetchData, postData } from "../../api";
+import { fetchData, postData, updateDetails } from "../../api";
 import { Button, Grid, IconButton, TextField } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import { CustomModal } from "../../components/Modal";
@@ -13,7 +13,7 @@ export const Role = () => {
   const [data, setData] = useState({ rows: [], total: 0 });
   const [openModal, setOpenModal] = useState(false);
   const [modalType, setModalType] = useState<ModalType>("READ");
-  const [modalData, setModalData] = useState();
+  const [modalData, setModalData] = useState<any>();
   const [searchValue, setSearchValue] = useState("");
   const { rows, total } = data;
 
@@ -46,6 +46,17 @@ export const Role = () => {
     }
   };
 
+  const updateRole = async (data: any) => {
+    try {
+      await updateDetails(`role/${modalData?.id}`, data, navigate);
+      await fetchRoleData("");
+    } catch (e) {
+      console.error("error==>", e);
+    } finally {
+      setOpenModal(false);
+    }
+  }
+
   const saveRole = async (data: any) => {
     try {
       await postData("role", data, navigate);
@@ -63,6 +74,7 @@ export const Role = () => {
       setModalType(type);
     }
     setOpenModal(!openModal);
+    
   };
 
   return (
@@ -71,6 +83,7 @@ export const Role = () => {
         type={modalType}
         open={openModal}
         onClose={toggleModal}
+        onUpdate={updateRole}
         onSave={saveRole}
         template="ROLE"
         data={modalData}
