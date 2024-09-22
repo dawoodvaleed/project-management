@@ -82,16 +82,13 @@ export const Permissions = () => {
           <Checkbox
             defaultChecked={fetchedPermissions.includes(permission.name)}
             checked={fetchedPermissions.includes(permission.name)}
-            onChange={(e) => {
-              if (e.target.checked) {
-                setFetchedPermissions((permissions) => [
-                  ...permissions,
-                  permission.name,
-                ]);
+            onChange={({ target: { checked } }) => {
+              if (checked) {
+                setFetchedPermissions([...fetchedPermissions, permission.name]);
               } else {
-                setFetchedPermissions((permissions) =>
-                  permissions.filter(
-                    (permission) => permission !== permission.name
+                setFetchedPermissions(
+                  fetchedPermissions.filter(
+                    (fetchedPermission) => fetchedPermission !== permission.name
                   )
                 );
               }
