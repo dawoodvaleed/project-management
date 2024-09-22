@@ -4,7 +4,7 @@ import { Item } from "../pages/Item";
 import { AddMeasurement, Measurement } from "../pages/Measurement";
 import { Permissions, Role, User } from "../pages/Security";
 import { Project } from "../pages/Projects";
-import { ProjectProgress } from "../pages/ProjectProgress";
+import { ProjectProgress, ProjectProgressDetail } from "../pages/ProjectProgress";
 
 const PATHS = {
   users: "/security/user",
@@ -15,7 +15,8 @@ const PATHS = {
   measurements: "/measurement",
   projects: "/project",
   addMeasurement: "/add-measurement",
-  projectProgress: "/project-progress"
+  projectProgress: "/project-progress",
+  projectProgressDetail: "/project-progress-detail"
 };
 
 export const ALL_ROUTES = {
@@ -101,5 +102,11 @@ export const ALL_ROUTES = {
     displayText: "Project Progress",
     path: PATHS.projectProgress,
     route: <Route element={<ProjectProgress />} path={PATHS.projectProgress} />,
+  },
+  projectProgressDetail: {
+    name: "projectProgressDetail",
+    displayText: "Project Progress Detail",
+    path: PATHS.projectProgressDetail,
+    route: <Route element={<ProjectProgressDetail />} path={PATHS.projectProgressDetail} />,
   }
 };

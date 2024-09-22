@@ -40,7 +40,10 @@ export const PROTECTED_ROUTES = [
   },
   {
     icon: <SignalCellularAlt />,
-    submenu: [{ icon: <HorizontalRule />, ...ALL_ROUTES.projectProgressView }],
+    submenu: [
+      { icon: <HorizontalRule />, ...ALL_ROUTES.projectProgressView },
+      { icon: <HorizontalRule />, ...ALL_ROUTES.projectProgressDetail },
+    ],
     ...ALL_ROUTES.projectProgress,
   },
   {

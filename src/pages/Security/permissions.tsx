@@ -32,7 +32,11 @@ export const Permissions = () => {
     { ...ALL_ROUTES.item, permissions: [ALL_ROUTES.item, ALL_ROUTES.items] },
     {
       ...ALL_ROUTES.projectProgress,
-      permissions: [ALL_ROUTES.projectProgress, ALL_ROUTES.projectProgressView],
+      permissions: [
+        ALL_ROUTES.projectProgress,
+        ALL_ROUTES.projectProgressView,
+        ALL_ROUTES.projectProgressDetail,
+      ],
     },
     {
       ...ALL_ROUTES.project,

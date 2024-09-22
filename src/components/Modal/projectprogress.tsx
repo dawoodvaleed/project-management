@@ -19,7 +19,8 @@ interface ProjectProgressModalProps {
 }
 
 export const ProjectProgressModal: FC<ProjectProgressModalProps> = ({
-  data, dataRef
+  data,
+  dataRef,
 }) => {
   const [measurements, setMeasurements] = useState(
     data?.measurements.reduce(
@@ -43,7 +44,16 @@ export const ProjectProgressModal: FC<ProjectProgressModalProps> = ({
       value: `${data?.customer?.name} (${data?.customer?.province})`,
     },
     { label: "Budget", value: data?.budget },
-    { label: "OverAll Progress %", value: "TO BE CALCULATED" },
+    {
+      label: "OverAll Progress %",
+      value: (
+        data?.measurements.reduce((acc, curr) => {
+          return curr.progressPercentage
+            ? Number(curr.progressPercentage) + acc
+            : acc;
+        }, 0) / data?.measurements.length
+      ).toFixed(2),
+    },
     {
       label: "Work Completion Date",
       value: formatDate(data?.completionDate),
@@ -58,7 +68,7 @@ export const ProjectProgressModal: FC<ProjectProgressModalProps> = ({
         [name]: value,
         isChanged: true,
       },
-    }
+    };
     setMeasurements(updatedData);
     dataRef.current = updatedData;
   };
@@ -70,17 +80,23 @@ export const ProjectProgressModal: FC<ProjectProgressModalProps> = ({
       item: `${row.item.id} - ${row.item.name}`,
       uom: row.item.unitOfMeasurement,
       amount: row.numberOfItems * row.rate,
+      numberOfItems: row.numberOfItems,
       updatedAt: formatDateTime(row.updatedAt),
       progressPercentage: (
         <TextField
           id={row.id}
           name="progressPercentage"
           value={measurements[row.id].progressPercentage}
-          onChange={handleOnChange}
+          onChange={(e) => {
+            const value = parseInt(e.target.value, 10);
+            if (value > 100) e.target.value = "100";
+            if (value < 0) e.target.value = "0";
+            handleOnChange(e);
+          }}
           variant="outlined"
           size="small"
-          fullWidth
           type="number"
+          sx={{ width: "70px" }}
         />
       ),
       customerComments: (
@@ -126,7 +142,7 @@ export const ProjectProgressModal: FC<ProjectProgressModalProps> = ({
             { key: "work", value: "Work" },
             { key: "item", value: "Item" },
             { key: "uom", value: "UOM" },
-            { key: "  ", value: "Qty" },
+            { key: "numberOfItems", value: "Qty" },
             { key: "rate", value: "Price" },
             { key: "amount", value: "Amount" },
             { key: "progressPercentage", value: "Progress %" },
