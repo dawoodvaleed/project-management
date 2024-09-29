@@ -68,7 +68,7 @@ export const Measurement = () => {
           { key: "date", value: "Date" },
           { key: "customerName", value: "Customer" },
           { key: "branch", value: "Branch" },
-          { key: "itemName", value: "item" },
+          { key: "itemName", value: "Item" },
           { key: "unit", value: "Unit" },
           { key: "location", value: "Location" },
           { key: "numberOfItems", value: "NOS" },

@@ -7,6 +7,7 @@ import { Autocomplete } from "../../components/AutoComplete";
 import { formatMuiDate } from "../../utils/util";
 import { postData } from "../../api/postData";
 import { TextField } from "../../components/TextField";
+import { Table } from "../../components/Table";
 
 type Option = {
   name: string;
@@ -31,6 +32,7 @@ export const AddMeasurement = () => {
 
   const [selectedItem, setSelectedItem] = useState<Option>();
   const [selectedProject, setSelectedProject] = useState<Option>();
+  const [measurements, setMeasurements] = useState({ rows: [], total: 0 });
 
   const initialValue = {
     projectId: "",
@@ -112,6 +114,35 @@ export const AddMeasurement = () => {
       );
     }
   };
+
+  const fetchMeasurementData = async (queryStr: string) => {
+    const data = await fetchData("measurement", queryStr, navigate);
+    if (data) {
+      setMeasurements(data);
+    }
+  };
+
+  const addAction = (rows: any) =>
+    rows.map((row: any) => ({
+      ...row,
+      itemName: `${row.item.id} - ${row.item.description}`,
+      unit: row.item.unitOfMeasurement,
+      quantity: (
+        Number(row.length || 1) *
+        Number(row.height || 1) *
+        Number(row.breadth || 1) *
+        Number(row.numberOfItems || 1)
+      ).toFixed(2),
+      price: Number(row.rate).toFixed(2),
+      amount: (
+        Number(row.length || 1) *
+        Number(row.height || 1) *
+        Number(row.breadth || 1) *
+        Number(row.numberOfItems || 1) *
+        Number(row.rate || 1)
+      ).toFixed(2),
+      action: "",
+    }));
 
   useEffect(() => {
     fetchSearchedProjects();
@@ -287,6 +318,28 @@ export const AddMeasurement = () => {
           Save
         </Button>
       </form>
+      <br />
+      {projectId && (
+        <Table
+          headers={[
+            { key: "itemName", value: "Item" },
+            { key: "unit", value: "Unit" },
+            { key: "length", value: "Length" },
+            { key: "height", value: "Height" },
+            { key: "breadth", value: "Breath" },
+            { key: "numberOfItems", value: "NOS" },
+            { key: "quantity", value: "Quantity" },
+            { key: "price", value: "Price" },
+            { key: "amount", value: "Amount" },
+            { key: "location", value: "Location" },
+            { key: "action", value: "Action" },
+          ]}
+          rows={addAction(measurements.rows)}
+          total={measurements.total}
+          onPagination={(queryStr: string) => fetchMeasurementData(queryStr)}
+          additionalQueryParams={`projectId=${projectId}`}
+        />
+      )}
     </div>
   );
 };

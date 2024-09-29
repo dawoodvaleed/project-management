@@ -24,6 +24,7 @@ type TableProps = {
   total?: number;
   onPagination?: Function;
   shouldPaginate?: Boolean;
+  additionalQueryParams?: string;
 };
 
 export const Table = ({
@@ -32,14 +33,34 @@ export const Table = ({
   total,
   onPagination,
   shouldPaginate = true,
+  additionalQueryParams,
 }: TableProps) => {
+  const DEFAULT_ROWS_PER_PAGE = 10;
+  const DEFAULT_ROWS_PER_PAGE_OPTIONS = [10, 20, 30];
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE);
 
   useEffect(() => {
-    if (onPagination)
-      onPagination(`?limit=${rowsPerPage}&offset=${page * rowsPerPage}`);
+    if (onPagination) {
+      onPagination(
+        `?limit=${rowsPerPage}&offset=${page * rowsPerPage}${
+          additionalQueryParams ? `&${additionalQueryParams}` : ""
+        }`
+      );
+    }
   }, [page, rowsPerPage]);
+
+  useEffect(() => {
+    if (onPagination) {
+      setPage(0);
+      setRowsPerPage(DEFAULT_ROWS_PER_PAGE);
+      onPagination(
+        `?limit=${rowsPerPage}&offset=${page * rowsPerPage}${
+          additionalQueryParams ? `&${additionalQueryParams}` : ""
+        }`
+      );
+    }
+  }, [additionalQueryParams]);
 
   const handleChangePage = (
     _: MouseEvent<HTMLButtonElement> | null,
@@ -83,7 +104,7 @@ export const Table = ({
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[10, 20, 30]}
+                rowsPerPageOptions={DEFAULT_ROWS_PER_PAGE_OPTIONS}
                 count={total}
                 rowsPerPage={rowsPerPage}
                 page={page}
