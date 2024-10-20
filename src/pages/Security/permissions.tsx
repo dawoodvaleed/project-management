@@ -44,6 +44,15 @@ export const Permissions = () => {
         ALL_ROUTES.project,
         ALL_ROUTES.projects,
         ALL_ROUTES.measurements,
+        ALL_ROUTES.addMeasurement,
+      ],
+    },
+    {
+      ...ALL_ROUTES.quotation,
+      permissions: [
+        ALL_ROUTES.quotation,
+        ALL_ROUTES.quotations,
+        ALL_ROUTES.addQuotation,
       ],
     },
     {

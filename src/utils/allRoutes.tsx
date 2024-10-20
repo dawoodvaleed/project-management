@@ -4,7 +4,11 @@ import { Item } from "../pages/Item";
 import { AddMeasurement, Measurement } from "../pages/Measurement";
 import { Permissions, Role, User } from "../pages/Security";
 import { Project } from "../pages/Projects";
-import { ProjectProgress, ProjectProgressDetail } from "../pages/ProjectProgress";
+import {
+  ProjectProgress,
+  ProjectProgressDetail,
+} from "../pages/ProjectProgress";
+import { AddQuotation, Quotation } from "../pages/Quotation";
 
 const PATHS = {
   users: "/security/user",
@@ -16,7 +20,9 @@ const PATHS = {
   projects: "/project",
   addMeasurement: "/add-measurement",
   projectProgress: "/project-progress",
-  projectProgressDetail: "/project-progress-detail"
+  projectProgressDetail: "/project-progress-detail",
+  quotations: "/quotation",
+  addQuotation: "/add-quotation",
 };
 
 export const ALL_ROUTES = {
@@ -107,6 +113,30 @@ export const ALL_ROUTES = {
     name: "projectProgressDetail",
     displayText: "Project Progress Detail",
     path: PATHS.projectProgressDetail,
-    route: <Route element={<ProjectProgressDetail />} path={PATHS.projectProgressDetail} />,
-  }
+    route: (
+      <Route
+        element={<ProjectProgressDetail />}
+        path={PATHS.projectProgressDetail}
+      />
+    ),
+  },
+
+  // QUOTATION
+  quotation: {
+    name: "quotation",
+    displayText: "Quotations",
+    route: null,
+  },
+  quotations: {
+    name: "quotations",
+    displayText: "Quotation List",
+    path: PATHS.quotations,
+    route: <Route element={<Quotation />} path={PATHS.quotations} />,
+  },
+  addQuotation: {
+    name: "addQuotation",
+    displayText: "Quotations",
+    path: PATHS.addQuotation,
+    route: <Route element={<AddQuotation />} path={PATHS.addQuotation} />,
+  },
 };

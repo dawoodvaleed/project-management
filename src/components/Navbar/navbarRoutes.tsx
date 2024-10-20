@@ -56,6 +56,14 @@ export const PROTECTED_ROUTES = [
     ...ALL_ROUTES.project,
   },
   {
+    icon: <LocalOffer />,
+    submenu: [
+      { icon: <HorizontalRule />, ...ALL_ROUTES.addQuotation },
+      { icon: <HorizontalRule />, ...ALL_ROUTES.quotations },
+    ],
+    ...ALL_ROUTES.quotation,
+  },
+  {
     icon: <Security />,
     submenu: [
       { icon: <HorizontalRule />, ...ALL_ROUTES.users },
