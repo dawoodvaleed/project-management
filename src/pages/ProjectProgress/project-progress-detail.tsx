@@ -6,37 +6,51 @@ import { useNavigate } from "react-router-dom";
 import { Autocomplete } from "../../components/AutoComplete";
 import { generatePDF } from "../../utils/generatePDF";
 import { generateExcel } from "../../utils/generateExcel";
+import {formatDate} from "../../utils/util";
 
 type Option = {
   name: string;
   id: string;
 };
 
+const formatPercentage = (completedPercentage: string = "0", totalProgressPercentage: string = "0") => {
+  const completed = parseFloat(completedPercentage);
+  const total = parseFloat(totalProgressPercentage);
+
+  let status = "No Work";
+  if (completed > 0) {
+    status = completed < total ? "In Progress" : "Completed";
+  }
+
+  return `${status} 
+(${completedPercentage} / ${totalProgressPercentage})%`;
+};
+
 export const ProjectProgressDetail = () => {
   const navigate = useNavigate();
-  const [vendorOptions, setVendorOptions] = useState<Option[]>([]);
-  const [debouncedcustomer, customer, setcustomer] = useDebounce<string>("", 500);
+  const [customerOptions, setCustomerOptions] = useState<Option[]>([]);
+  const [debouncedCustomer, customer, setCustomer] = useDebounce<string>("");
   const [projectOptions, setProjectOptions] = useState<Option[]>([]);
-  const [debouncedproject, project, setproject] = useDebounce<string>("", 500);
+  const [debouncedProject, project, setProject] = useDebounce<string>("");
   const [natureOfWorkOptions, setNatureOfWorkOptions] = useState<Option[]>([]);
-  const [debouncednatureOfWork, natureOfWork, setnatureOfWork] = useDebounce<string>("", 500);
+  const [debouncedNatureOfWork, natureOfWork, setNatureOfWork] = useDebounce<string>("");
 
   useEffect(() => {
-    fetchSearchedVendor();
-  }, [debouncedcustomer]);
+    fetchSearchedCustomer();
+  }, [debouncedCustomer]);
 
   useEffect(() => {
     fetchSearchedProject();
-  }, [debouncedproject]);
+  }, [debouncedProject]);
 
   useEffect(() => {
     fetchSearchedNatureOfWork();
-  }, [debouncednatureOfWork]);
+  }, [debouncedNatureOfWork]);
 
-  const fetchSearchedVendor = async () => {
+  const fetchSearchedCustomer = async () => {
     if (customer) {
-      const data = await fetchData("vendor", `?search=${customer}`, navigate);
-      setVendorOptions(data?.rows.map((row: any) => ({ id: row.id, name: row.name })) || []);
+      const data = await fetchData("customer", `?search=${customer}`, navigate);
+      setCustomerOptions(data?.rows.map((row: any) => ({ id: row.id, name: row.name })) || []);
     }
   };
 
@@ -54,84 +68,25 @@ export const ProjectProgressDetail = () => {
     }
   };
 
-  const handleVendorSelect = (value: Option | null) => {};
-  const handleProjectSelect = (value: Option | null) => {};
-  const handleNatureOfWorkSelect = (value: Option | null) => {};
-
-  const handleDownloadPDF = async () => {
-    const data: any = await fetchProjectProgressDetail();
-    
-    const headers = [
-      [
-        "Project ID",
-        "Branch",
-        "Vendor",
-        "Work Order Date",
-        "Work Completion Date",
-        "Days",
-        "(A) Civil Works",
-        "(B) Fixture Works",
-        "(C) Furniture Works",
-        "(D) Plumbing Works",
-        "(E) Re-Polishing Items",
-        "Elevation Works",
-        "Site Development",
-        "Total Civil Average",
-        "(F) Air Conditioning System",
-        "(G) Computer System",
-        "(H) Generator & UPS System",
-        "(I) Lighting/Fixture",
-        "(J) Security System/Wiring",
-        "Switches & Sockets",
-        "(K) Telephone System",
-        "(L) Wiring/ Accessories",
-        "Total Electric Average",
-        "Total Average",
-      ],
-    ];
-  
-    const rows = data.map((item: any) => [
-      item.id,
-      `${item.branch} ${item.city}`,
-      `${item.customer.name} ${item.customer.city}`,
-      item.orderDate,
-      item.completionDate,
-      item.days,
-      item.civilWorks,
-      item.fixtureWorks,
-      item.furnitureWorks,
-      item.plumbingWorks,
-      item.rePolishingItems,
-      item.elevationWorks,
-      item.siteDevelopment,
-      item.totalCivilAverage,
-      item.airConditioningSystem,
-      item.computerSystem,
-      item.generatorUpsSystem,
-      item.lightingFixture,
-      item.securitySystemWiring,
-      item.switchesSockets,
-      item.telephoneSystem,
-      item.wiringAccessories,
-      item.totalElectricAverage,
-      item.totalAverage,
-    ]);
-
-    generatePDF(headers, rows);
+  const handleCustomerSelect = (value: Option | null) => {
+    setCustomer(value?.id || "");
   };
+  const handleProjectSelect = (value: Option | null) => {setProject(value?.id || ""); };
+  const handleNatureOfWorkSelect = (value: Option | null) => { };
 
-  const handleDownloadExcel = async () => {
+  const handleDownload = async (fileType: string) => {
     const data: any = await fetchProjectProgressDetail();
+
     const formattedData = data.map((item: any) => ({
       "Project ID": item.id,
       "Branch": `${item.branch} ${item.city}`,
-      "Vendor": `${item.customer.name} ${item.customer.city}`,
-      "Work Order Date": item.orderDate,
-      "Work Completion Date": item.completionDate,
-      "Days": item.days,
-      "(A) Civil Works": item.civilWorks,
-      "(B) Fixture Works": item.fixtureWorks,
-      "(C) Furniture Works": item.furnitureWorks,
+      "Customer": `${item.customer.name} ${item.customer.city}`,
+      "Work Order Date": formatDate(item.orderDate),
+      "Work Completion Date": formatDate(item.completionDate),
+      "Days": item.orderDate ? Math.round((+new Date()- +new Date(item?.orderDate)) / (1000 * 60 * 60 * 24)) : "",
+      "(A) Civil Works": formatPercentage(item.projectProgress?.["(A) Civil Works"]?.completedPercentage, item.projectProgress?.["(A) Civil Works"]?.totalProgressPercentage),
+      "(B) Fixture Works": formatPercentage(item.projectProgress?.["(B) Fixture Works"]?.completedPercentage, item.projectProgress?.["(B) Fixture Works"]?.totalProgressPercentage),
+      "(E) Electric Works": formatPercentage(item.projectProgress?.["(E) Electric Works"]?.completedPercentage, item.projectProgress?.["(E) Electric Works"]?.totalProgressPercentage),
       "(D) Plumbing Works": item.plumbingWorks,
       "(E) Re-Polishing Items": item.rePolishingItems,
       "Elevation Works": item.elevationWorks,
@@ -142,18 +97,32 @@ export const ProjectProgressDetail = () => {
       "(H) Generator & UPS System": item.generatorUpsSystem,
       "(I) Lighting/Fixture": item.lightingFixture,
       "(J) Security System/Wiring": item.securitySystemWiring,
-      "Switches & Sockets": item.switchesSockets,
+      "Switches & Sockets": formatPercentage(item.projectProgress?.["Switches & Sockets"]?.completedPercentage, item.projectProgress?.["Switches & Sockets"]?.totalProgressPercentage),
       "(K) Telephone System": item.telephoneSystem,
       "(L) Wiring/ Accessories": item.wiringAccessories,
       "Total Electric Average": item.totalElectricAverage,
-      "Total Average": item.totalAverage,
-    }));  
-    generateExcel(formattedData);
+      "Total Average": `${item.projectProgress?.totalAverage}%` || "N/A",
+    }));
+
+    const headers = formattedData.length ? [Object.keys(formattedData[0])] : [];
+    const rows = formattedData.map((row :any) => Object.values(row));
+
+    if (fileType === 'pdf') {
+      generatePDF(headers, rows);
+    } else if (fileType === 'xlsx') {
+      generateExcel(formattedData);
+    }
   };
 
   const fetchProjectProgressDetail = async () => {
+    let params = '';
+    [{ name: 'customerId', value: customer }, { name: 'natureOfWork', value: natureOfWork }, { name: 'projectId', value: project }].forEach(({ name, value }) => {
+      if (value) {
+        params += `${params ? '&' : '?'}${name}=${value}`
+      }
+    })
     const data = await fetchDetails(
-      `project/progress/details?customerId=0052&natureOfWork=Renovation`,
+      `project/progress/details${params}`,
       navigate
     );
 
@@ -172,18 +141,18 @@ export const ProjectProgressDetail = () => {
         }}
       >
         <Autocomplete
-          id="vendor-autocomplete"
+          id="customer-autocomplete"
           renderInputProps={{
             label: "All",
             name: "customer",
             value: customer,
             onChange: ({ currentTarget }: any) => {
-              setcustomer(currentTarget.value);
+              setCustomer(currentTarget.value);
             },
             required: true,
           }}
-          options={vendorOptions}
-          onChange={(_, value) => handleVendorSelect(value)}
+          options={customerOptions}
+          onChange={(_, value) => handleCustomerSelect(value)}
         />
         <Autocomplete
           id="project-autocomplete"
@@ -192,7 +161,7 @@ export const ProjectProgressDetail = () => {
             name: "project",
             value: project,
             onChange: ({ currentTarget }: any) => {
-              setproject(currentTarget.value);
+              setProject(currentTarget.value);
             },
             required: true,
           }}
@@ -206,7 +175,7 @@ export const ProjectProgressDetail = () => {
             name: "natureOfWork",
             value: natureOfWork,
             onChange: ({ currentTarget }: any) => {
-              setnatureOfWork(currentTarget.value);
+              setNatureOfWork(currentTarget.value);
             },
             required: true,
           }}
@@ -223,14 +192,14 @@ export const ProjectProgressDetail = () => {
       >
         <Button
           variant="contained"
-          onClick={handleDownloadPDF}
+          onClick={() => handleDownload('pdf')}
           style={{ width: "200px", height: "50px" }}
         >
           Download PDF
         </Button>
         <Button
           variant="contained"
-          onClick={handleDownloadExcel}
+          onClick={() => handleDownload('xlsx')}
           style={{ width: "200px", height: "50px" }}
         >
           Download Excel
