@@ -58,6 +58,14 @@ export const PROTECTED_ROUTES = [
   {
     icon: <LocalOffer />,
     submenu: [
+      { icon: <HorizontalRule />, ...ALL_ROUTES.invoiceRequest },
+      { icon: <HorizontalRule />, ...ALL_ROUTES.invoiceRequestDetail },
+    ],
+    ...ALL_ROUTES.invoice,
+  },
+  {
+    icon: <LocalOffer />,
+    submenu: [
       { icon: <HorizontalRule />, ...ALL_ROUTES.addQuotation },
       { icon: <HorizontalRule />, ...ALL_ROUTES.quotations },
     ],
