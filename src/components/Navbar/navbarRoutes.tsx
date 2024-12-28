@@ -5,6 +5,9 @@ import {
   HorizontalRule,
   Security,
   SignalCellularAlt,
+  Receipt,
+  RequestQuote,
+  AccountTree
 } from "@mui/icons-material";
 import { ALL_ROUTES } from "../../utils/allRoutes";
 
@@ -47,7 +50,7 @@ export const PROTECTED_ROUTES = [
     ...ALL_ROUTES.projectProgress,
   },
   {
-    icon: <LocalOffer />,
+    icon: <AccountTree />,
     submenu: [
       { icon: <HorizontalRule />, ...ALL_ROUTES.projects },
       { icon: <HorizontalRule />, ...ALL_ROUTES.addMeasurement },
@@ -56,7 +59,7 @@ export const PROTECTED_ROUTES = [
     ...ALL_ROUTES.project,
   },
   {
-    icon: <LocalOffer />,
+    icon: <Receipt />,
     submenu: [
       { icon: <HorizontalRule />, ...ALL_ROUTES.invoiceRequest },
       { icon: <HorizontalRule />, ...ALL_ROUTES.invoiceRequestDetail },
@@ -64,7 +67,7 @@ export const PROTECTED_ROUTES = [
     ...ALL_ROUTES.invoice,
   },
   {
-    icon: <LocalOffer />,
+    icon: <RequestQuote />,
     submenu: [
       { icon: <HorizontalRule />, ...ALL_ROUTES.addQuotation },
       { icon: <HorizontalRule />, ...ALL_ROUTES.quotations },
