@@ -12,6 +12,20 @@ type Option = {
   id: string;
 };
 
+const formatPercentage = (completedPercentage: string = "0", totalProgressPercentage: string = "0") => {
+  let status = ""
+  if (completedPercentage === "0") {
+    status = "No Work";
+  } else if (completedPercentage < totalProgressPercentage) {
+    status = "In Progress"
+  } else {
+    status = "Completed"
+  }
+
+  return `${status}
+(${completedPercentage} / ${totalProgressPercentage})%`
+}
+
 export const ProjectProgressDetail = () => {
   const navigate = useNavigate();
   const [vendorOptions, setVendorOptions] = useState<Option[]>([]);
@@ -54,13 +68,13 @@ export const ProjectProgressDetail = () => {
     }
   };
 
-  const handleVendorSelect = (value: Option | null) => {};
-  const handleProjectSelect = (value: Option | null) => {};
-  const handleNatureOfWorkSelect = (value: Option | null) => {};
+  const handleVendorSelect = (value: Option | null) => { };
+  const handleProjectSelect = (value: Option | null) => { };
+  const handleNatureOfWorkSelect = (value: Option | null) => { };
 
   const handleDownloadPDF = async () => {
     const data: any = await fetchProjectProgressDetail();
-    
+
     const headers = [
       [
         "Project ID",
@@ -89,32 +103,32 @@ export const ProjectProgressDetail = () => {
         "Total Average",
       ],
     ];
-  
+
     const rows = data.map((item: any) => [
       item.id,
       `${item.branch} ${item.city}`,
       `${item.customer.name} ${item.customer.city}`,
-      item.orderDate,
-      item.completionDate,
-      item.days,
-      item.civilWorks,
-      item.fixtureWorks,
-      item.furnitureWorks,
-      item.plumbingWorks,
-      item.rePolishingItems,
-      item.elevationWorks,
-      item.siteDevelopment,
-      item.totalCivilAverage,
-      item.airConditioningSystem,
-      item.computerSystem,
-      item.generatorUpsSystem,
-      item.lightingFixture,
-      item.securitySystemWiring,
-      item.switchesSockets,
-      item.telephoneSystem,
-      item.wiringAccessories,
-      item.totalElectricAverage,
-      item.totalAverage,
+      item.orderDate || "N/A",
+      item.completionDate || "N/A",
+      Math.round((+new Date()- +new Date(item?.createdAt)) / (1000 * 60 * 60 * 24)),
+      formatPercentage(item.projectProgress?.["(A) Civil Works"]?.completedPercentage, item.projectProgress?.["(A) Civil Works"]?.totalProgressPercentage),
+      formatPercentage(item.projectProgress?.["(B) Fixture Works"]?.completedPercentage, item.projectProgress?.["(B) Fixture Works"]?.totalProgressPercentage),
+      formatPercentage(item.projectProgress?.["(C) Furniture Works"]?.completedPercentage, item.projectProgress?.["(C) Furniture Works"]?.totalProgressPercentage),
+      formatPercentage(item.projectProgress?.["(D) Plumbing Works"]?.completedPercentage, item.projectProgress?.["(D) Plumbing Works"]?.totalProgressPercentage),
+      formatPercentage(item.projectProgress?.["(f) Re-Polishing Items"]?.completedPercentage, item.projectProgress?.["(f) Re-Polishing Items"]?.totalProgressPercentage),
+      item.projectProgress?.["Elevation Works"] || "N/A",
+      item.projectProgress?.["Site Development"] || "N/A",
+      item.totalCivilAverage || "N/A",
+      item.projectProgress?.["(F) Air Conditioning System"] || "N/A",
+      item.projectProgress?.["(E) Computer System"] || "N/A",
+      item.projectProgress?.["(A) Generator UPS System"] || "N/A",
+      item.projectProgress?.["(H) Lighting / Fixture"] || "N/A",
+      item.projectProgress?.["(G) Security System Wiring"] || "N/A",
+      item.projectProgress?.["Switches & Sockets"]?.totalProgressPercentage || "N/A",
+      item.projectProgress?.["(D) Telephone System"] || "N/A",
+      item.projectProgress?.["(B) Wiring / Accessories"] || "N/A",
+      item.totalElectricAverage || "N/A",
+      item.projectProgress?.totalAverage || "N/A",
     ]);
 
     generatePDF(headers, rows);
@@ -147,7 +161,7 @@ export const ProjectProgressDetail = () => {
       "(L) Wiring/ Accessories": item.wiringAccessories,
       "Total Electric Average": item.totalElectricAverage,
       "Total Average": item.totalAverage,
-    }));  
+    }));
     generateExcel(formattedData);
   };
 
