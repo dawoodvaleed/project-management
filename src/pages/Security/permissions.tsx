@@ -25,6 +25,8 @@ export const Permissions = () => {
         ALL_ROUTES.item,
         ALL_ROUTES.projectProgress,
         ALL_ROUTES.project,
+        ALL_ROUTES.invoice,
+        ALL_ROUTES.quotation,
         ALL_ROUTES.security,
       ],
     },
@@ -45,6 +47,14 @@ export const Permissions = () => {
         ALL_ROUTES.projects,
         ALL_ROUTES.measurements,
         ALL_ROUTES.addMeasurement,
+      ],
+    },
+    {
+      ...ALL_ROUTES.invoice,
+      permissions: [
+        ALL_ROUTES.invoice,
+        ALL_ROUTES.invoiceRequest,
+        ALL_ROUTES.invoiceRequestDetail,
       ],
     },
     {
@@ -84,9 +94,8 @@ export const Permissions = () => {
     const rows: any[] = routesData
       .find(({ name }) => name === activeData)
       ?.permissions.map((permission: any) => ({
-        name: `${permission.displayText}${
-          permission.route === null ? " (All Options)" : ""
-        }`,
+        name: `${permission.displayText}${permission.route === null ? " (All Options)" : ""
+          }`,
         allow: (
           <Checkbox
             defaultChecked={fetchedPermissions.includes(permission.name)}

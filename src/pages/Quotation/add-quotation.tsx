@@ -1,11 +1,10 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useDebounce } from "../../utils/debounce-hook";
-import { fetchData } from "../../api";
+import { fetchData, postData } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { Autocomplete } from "../../components/AutoComplete";
 import { formatMuiDate } from "../../utils/util";
-import { postData } from "../../api/postData";
 import { TextField } from "../../components/TextField";
 import { Table } from "../../components/Table";
 
@@ -22,13 +21,9 @@ type Option = {
 export const AddQuotation = () => {
   const navigate = useNavigate();
   const [projectOptions, setProjectOptions] = useState<Option[]>([]);
-  const [debouncedProjectCode, projectCode, setProjectCode] =
-    useDebounce<string>("", 500);
+  const [debouncedProjectCode, projectCode, setProjectCode] = useDebounce<string>("");
   const [itemOptions, setItemOptions] = useState<Option[]>([]);
-  const [debouncedItemCode, itemCode, setItemCode] = useDebounce<string>(
-    "",
-    500
-  );
+  const [debouncedItemCode, itemCode, setItemCode] = useDebounce<string>("");
 
   const [selectedItem, setSelectedItem] = useState<Option>();
   const [selectedProject, setSelectedProject] = useState<Option>();
