@@ -5,7 +5,7 @@ import { fetchData, fetchDetails } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { Autocomplete } from "../../components/AutoComplete";
 import { generatePDF } from "../../utils/generatePDF";
-import { generateExcel } from "../../utils/generateExc el";
+import { generateExcel } from "../../utils/generateExcel";
 import {formatDate} from "../../utils/util";
 
 type Option = {
