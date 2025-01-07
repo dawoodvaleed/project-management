@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Box } from "@mui/material";
 import { useDebounce } from "../../utils/debounce-hook";
 import { useNavigate } from "react-router-dom";
-import { fetchData, postData } from "../../api"; // Assuming postData is available for POST requests
+import { fetchData, postData } from "../../api";
 import { Autocomplete } from "../../components/AutoComplete";
 import { Table } from "../../components/Table";
 import { Checkbox } from "@mui/material";
