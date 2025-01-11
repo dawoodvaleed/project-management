@@ -76,7 +76,7 @@ export const InvoiceRequest = () => {
     setShowTable(true);
     setRequestedPaymentType(paymentType.name);
   };
-  console.log(requestedPaymentType);
+
   const handleInvoiceRequest = async () => {
     if (!paymentType || !selectedProjectId) {
       alert("Please select data to add.");
