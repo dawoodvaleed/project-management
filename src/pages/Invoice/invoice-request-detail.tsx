@@ -35,7 +35,7 @@ export const InvoiceRequestDetail = () => {
     rows.map((row: any) => ({
       ...row,
       customer: `${row.project.customer.name} (${row.project.customer.province})`,
-      verification: row.paymentPost ? "Paid" : "Pending",
+      paymentPost: row.paymentPost ? "YES" : "NO",
       action: (
         <IconButton color="inherit" onClick={() => toggleModal("READ", row)}>
           <Visibility />

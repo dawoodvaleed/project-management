@@ -109,7 +109,7 @@ export const InvoiceRequest = () => {
         />
       ),
       paidAmount: row.invoices.filter((invoice: any) => invoice.paymentPost).reduce((acc: number, invoice: any) => acc + Number(invoice.requestedAmount), 0),
-      requestedAmount: (row.customer[paymentTypeToPercentage[requestedPaymentType as keyof typeof paymentTypeToPercentage]] / 100) * row.budget,
+      requestedAmount: ((row.customer[paymentTypeToPercentage[requestedPaymentType as keyof typeof paymentTypeToPercentage]] / 100) * row.budget).toFixed(2),
       balance: row.budget - row.invoices.filter((invoice: any) => invoice.paymentPost).reduce((acc: number, invoice: any) => acc + Number(invoice.requestedAmount), 0),
     }));
 
