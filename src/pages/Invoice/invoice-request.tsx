@@ -12,8 +12,15 @@ type Option = {
   id: string;
 };
 
+const paymentTypeToPercentage = {
+  "Advance": "advancePercentage",
+  "First Running": "firstRunningPercentage",
+  "Second Running": "secondRunningPercentage",
+}
+
 export const InvoiceRequest = () => {
   const navigate = useNavigate();
+  const [requestedPaymentType, setRequestedPaymentType] = useState<string>("");
   const [paymentType, setPaymentType] = useState<Option | null>(null);
   const [year, setYear] = useState<Option | null>(null);
   const [customerOptions, setCustomerOptions] = useState<Option[]>([]);
@@ -33,8 +40,7 @@ export const InvoiceRequest = () => {
   }, [debouncedCustomer]);
 
   const fetchInvoiceData = async (queryStr: string) => {
-    const data = await fetchData(`invoice/invoiceable-projects?paymentType=${paymentType?.name}&year=${year?.name}&customerId=${customer}`, queryStr, navigate);
-    setShowTable(true);
+    const data = await fetchData(`invoice/invoiceable-projects`, `${queryStr}${queryStr ? '&' : '?'}paymentType=${paymentType?.name}&year=${year?.name}&customerId=${customer}`, navigate);
     if (data) {
       setData(data);
     }
@@ -66,9 +72,11 @@ export const InvoiceRequest = () => {
       alert("Please select values for Payment Type, Year, and Customer.");
       return;
     }
-    fetchInvoiceData("");
+    fetchInvoiceData('');
+    setShowTable(true);
+    setRequestedPaymentType(paymentType.name);
   };
-
+  console.log(requestedPaymentType);
   const handleInvoiceRequest = async () => {
     if (!paymentType || !selectedProjectId) {
       alert("Please select data to add.");
@@ -78,7 +86,6 @@ export const InvoiceRequest = () => {
     const requestBody = {
       projectId: selectedProjectId,
       paymentType: paymentType?.name,
-      percentage: "25.00",
     };
 
     try {
@@ -95,12 +102,15 @@ export const InvoiceRequest = () => {
   const addAction = (rows: any) =>
     rows.map((row: any) => ({
       ...row,
-      "": (
+      projectSelection: (
         <Checkbox
           color="primary"
           onChange={(event) => handleCheckboxChange(event, row.id)}
         />
       ),
+      paidAmount: row.invoices.filter((invoice: any) => invoice.paymentPost).reduce((acc: number, invoice: any) => acc + Number(invoice.requestedAmount), 0),
+      requestedAmount: (row.customer[paymentTypeToPercentage[requestedPaymentType as keyof typeof paymentTypeToPercentage]] / 100) * row.budget,
+      balance: row.budget - row.invoices.filter((invoice: any) => invoice.paymentPost).reduce((acc: number, invoice: any) => acc + Number(invoice.requestedAmount), 0),
     }));
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, rowId: string) => {
@@ -200,9 +210,9 @@ export const InvoiceRequest = () => {
           <br />
           <Table
             headers={[
-              { key: "", value: "Select" },
+              { key: "projectSelection", value: "Select" },
               { key: "id", value: "Project ID" },
-              { key: "", value: "Mobilization Date" },
+              { key: "", value: "Mobilization Date" }, // TODO: Add Mobilization Date later
               { key: "description", value: "Description" },
               { key: "branch", value: "Branch" },
               { key: "city", value: "City" },
