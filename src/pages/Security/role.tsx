@@ -20,7 +20,7 @@ export const Role = () => {
   const addAction = (rows: any) =>
     rows.map((row: any) => ({
       ...row,
-      status: row.status ? "Active" : "Unactive",
+      status: row.status ? "Active" : "Deactivated",
       edit: (
         <IconButton color="inherit" onClick={() => toggleModal("UPDATE", row)}>
           <Edit />
@@ -48,7 +48,7 @@ export const Role = () => {
 
   const updateRole = async (data: any) => {
     try {
-      await updateDetails(`role/${modalData?.id}`, data, navigate);
+      await updateDetails(`role/${modalData?.id}`, { ...data, status: data.status === 'active' ? true : false }, navigate);
       await fetchRoleData("");
     } catch (e) {
       console.error("error==>", e);
@@ -74,7 +74,6 @@ export const Role = () => {
       setModalType(type);
     }
     setOpenModal(!openModal);
-    
   };
 
   return (
