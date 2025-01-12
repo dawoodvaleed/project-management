@@ -10,6 +10,7 @@ import { ModalTemplate, ModalType, ModalTypeEnum } from "../../utils/commonTypes
 import { UserModal } from "./user";
 import { ProjectModal } from "./project";
 import { ProjectProgressModal } from "./projectprogress";
+import { CustomerInvoicePercentageEditModal } from "./customer-invoice-percentage-edit";
 
 type ModalProps = {
   open: boolean;
@@ -51,6 +52,7 @@ export const CustomModal = ({
     ),
     PROJECT: <ProjectModal type={type} data={data} />,
     PROJECT_PROGRESS: <ProjectProgressModal type={type} data={data} dataRef={dataRef} />,
+    CUSTOMER_INVOICE_PERCENTAGE_EDIT: <CustomerInvoicePercentageEditModal data={data} type={type} dataRef={dataRef} />,
   };
   const handleSubmit = async (cbFun: any) => {
     setIsLoading(true)
@@ -146,8 +148,8 @@ export const CustomModal = ({
                       </Button>
                     ) : type === 'WRITE' && onSave ? (
                       <Button
-                      onClick = {() => handleSubmit(() => onSave(dataRef.current))}
-                      variant="contained"
+                        onClick={() => handleSubmit(() => onSave(dataRef.current))}
+                        variant="contained"
                       >
                         Save
                       </Button>
