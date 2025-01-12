@@ -34,7 +34,6 @@ export const Customer = () => {
   };
 
   const updateCustomerInvoicePercentage = async (data: any) => {
-    console.log(data);
     try {
       await updateDetails(`customer/${modalData?.id}`, data, navigate);
       await fetchCustomerData("");
