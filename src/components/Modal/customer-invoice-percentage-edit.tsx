@@ -25,10 +25,12 @@ export const CustomerInvoicePercentageEditModal = ({ data, type, dataRef }: Moda
   return (
     <Grid container direction="column" rowGap={2}>
       <Grid container direction="row">
-        <Grid item md={12}>
+        <Grid item md={4}>
+          <p>Advance Percentage:</p>
+        </Grid>
+        <Grid item md={8}>
           <TextField
             id="advancePercentage"
-            label="Advance Percentage"
             variant="outlined"
             fullWidth
             onChange={(e) => handleChange('advancePercentage', e.target.value, setAdvancePercentage)}
@@ -40,10 +42,12 @@ export const CustomerInvoicePercentageEditModal = ({ data, type, dataRef }: Moda
         </Grid>
       </Grid>
       <Grid container direction="row">
-        <Grid item md={12}>
+        <Grid item md={4}>
+          <p>First Running Percentage:</p>
+        </Grid>
+        <Grid item md={8}>
           <TextField
             id="firstRunningPercentage"
-            label="First Running Percentage"
             variant="outlined"
             fullWidth
             onChange={(e) => handleChange('firstRunningPercentage', e.target.value, setFirstRunningPercentage)}
@@ -55,10 +59,12 @@ export const CustomerInvoicePercentageEditModal = ({ data, type, dataRef }: Moda
         </Grid>
       </Grid>
       <Grid container direction="row">
-        <Grid item md={12}>
+        <Grid item md={4}>
+          <p>Second Running Percentage:</p>
+        </Grid>
+        <Grid item md={8}>
           <TextField
             id="secondRunningPercentage"
-            label="Second Running Percentage"
             variant="outlined"
             fullWidth
             onChange={(e) => handleChange('secondRunningPercentage', e.target.value, setSecondRunningPercentage)}

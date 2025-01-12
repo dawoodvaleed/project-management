@@ -34,7 +34,7 @@ export const RoleModal = ({ data, type, dataRef }: ModalChildProps) => {
         <Grid item md={4}>
           <p>Company Name:</p>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={8}>
           <Select
             id="company-name-select-small"
             value={"companyName"}
@@ -50,10 +50,9 @@ export const RoleModal = ({ data, type, dataRef }: ModalChildProps) => {
         <Grid item md={4}>
           <p>Role Name:</p>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={8}>
           <TextField
             id="roleName"
-            label="Role Name"
             variant="outlined"
             fullWidth
             onChange={(e) => handleChange('name', e.target.value, setRoleName)}
@@ -67,16 +66,14 @@ export const RoleModal = ({ data, type, dataRef }: ModalChildProps) => {
         <Grid item md={4}>
           <p>Description:</p>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={8}>
           <TextField
             id="desc"
-            label="Description"
             variant="outlined"
             fullWidth
             onChange={(e) => handleChange('description', e.target.value, setDesc)}
             value={desc}
             disabled={type === "READ"}
-          // required
           />
         </Grid>
       </Grid>
@@ -84,11 +81,10 @@ export const RoleModal = ({ data, type, dataRef }: ModalChildProps) => {
         <Grid item md={4}>
           <p>Status:</p>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={8}>
           <Select
             id="status-select-small"
             value={status}
-            label="Status"
             fullWidth
             onChange={(e) => handleChange('status', e.target.value, setStatus)}
             disabled={type === "READ"}
