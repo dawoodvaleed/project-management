@@ -10,6 +10,7 @@ import {
 } from "../pages/ProjectProgress";
 import { AddQuotation, Quotation } from "../pages/Quotation";
 import { InvoiceRequest, InvoiceRequestDetail } from "../pages/Invoice";
+import { MaintenanceProjects } from "../pages/Maintenance";
 
 const PATHS = {
   users: "/security/user",
@@ -26,6 +27,9 @@ const PATHS = {
   addQuotation: "/add-quotation",
   invoiceRequest: "/invoice-request",
   invoiceRequestDetail: "/invoice-request-detail",
+  maintenanceProjects: "/maintenance-project",
+  maintenanceMeasurements: "/maintenance-measurement",
+  addMaintenanceMeasurement: "/add-maintenance-measurement",
 };
 
 export const ALL_ROUTES = {
@@ -91,13 +95,13 @@ export const ALL_ROUTES = {
     name: "measurements",
     displayText: "Measurement List",
     path: PATHS.measurements,
-    route: <Route element={<Measurement />} path={PATHS.measurements} />,
+    route: <Route element={<Measurement projectType="NEW" />} path={PATHS.measurements} />,
   },
   addMeasurement: {
     name: "addMeasurement",
     displayText: "Measurements",
     path: PATHS.addMeasurement,
-    route: <Route element={<AddMeasurement />} path={PATHS.addMeasurement} />,
+    route: <Route element={<AddMeasurement projectType="NEW" />} path={PATHS.addMeasurement} />,
   },
 
   // PROJECT PROGRESS
@@ -143,22 +147,47 @@ export const ALL_ROUTES = {
     route: <Route element={<AddQuotation />} path={PATHS.addQuotation} />,
   },
 
-    // INVOICE
-    invoice: {
-      name: "invoice",
-      displayText: "Invoice",
-      route: null,
-    },
-    invoiceRequest: {
-      name: "invoiceRequest",
-      displayText: "Invoice Request",
-      path: PATHS.invoiceRequest,
-      route: <Route element={<InvoiceRequest />} path={PATHS.invoiceRequest} />,
-    },
-    invoiceRequestDetail: {
-      name: "invoiceRequestDetail",
-      displayText: "Invoice Request Detail",
-      path: PATHS.invoiceRequestDetail,
-      route: <Route element={<InvoiceRequestDetail />} path={PATHS.invoiceRequestDetail} />,
-    },
+  // INVOICE
+  invoice: {
+    name: "invoice",
+    displayText: "Invoice",
+    route: null,
+  },
+  invoiceRequest: {
+    name: "invoiceRequest",
+    displayText: "Invoice Request",
+    path: PATHS.invoiceRequest,
+    route: <Route element={<InvoiceRequest />} path={PATHS.invoiceRequest} />,
+  },
+  invoiceRequestDetail: {
+    name: "invoiceRequestDetail",
+    displayText: "Invoice Request Detail",
+    path: PATHS.invoiceRequestDetail,
+    route: <Route element={<InvoiceRequestDetail />} path={PATHS.invoiceRequestDetail} />,
+  },
+
+  // MAINTENANCE
+  maintenance: {
+    name: "maintenance",
+    displayText: "Maintenance",
+    route: null,
+  },
+  maintenanceProjects: {
+    name: "maintenanceProjects",
+    displayText: "Repair & Maintenance",
+    path: PATHS.maintenanceProjects,
+    route: <Route element={<MaintenanceProjects />} path={PATHS.maintenanceProjects} />,
+  },
+  maintenanceMeasurements: {
+    name: "maintenanceMeasurements",
+    displayText: "Measurement List",
+    path: PATHS.maintenanceMeasurements,
+    route: <Route element={<Measurement projectType="MAINTENANCE" />} path={PATHS.maintenanceMeasurements} />,
+  },
+  addMaintenanceMeasurement: {
+    name: "addMaintenanceMeasurement",
+    displayText: "Measurements",
+    path: PATHS.addMaintenanceMeasurement,
+    route: <Route element={<AddMeasurement projectType="MAINTENANCE" />} path={PATHS.addMaintenanceMeasurement} />,
+  },
 };

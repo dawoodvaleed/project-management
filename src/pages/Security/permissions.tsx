@@ -27,6 +27,7 @@ export const Permissions = () => {
         ALL_ROUTES.project,
         ALL_ROUTES.invoice,
         ALL_ROUTES.quotation,
+        ALL_ROUTES.maintenance,
         ALL_ROUTES.security,
       ],
     },
@@ -63,6 +64,15 @@ export const Permissions = () => {
         ALL_ROUTES.quotation,
         ALL_ROUTES.quotations,
         ALL_ROUTES.addQuotation,
+      ],
+    },
+    {
+      ...ALL_ROUTES.maintenance,
+      permissions: [
+        ALL_ROUTES.maintenance,
+        ALL_ROUTES.maintenanceProjects,
+        ALL_ROUTES.maintenanceMeasurements,
+        ALL_ROUTES.addMaintenanceMeasurement,
       ],
     },
     {

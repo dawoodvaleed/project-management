@@ -18,8 +18,10 @@ type Option = {
   branch?: string;
 };
 
-export const AddMeasurement = () => {
+export const AddMeasurement = ({ projectType }: { projectType: string }) => {
   const navigate = useNavigate();
+  const isMaintenance = projectType === "MAINTENANCE"
+
   const [projectOptions, setProjectOptions] = useState<Option[]>([]);
   const [debouncedProjectCode, projectCode, setProjectCode] = useDebounce<string>("");
   const [itemOptions, setItemOptions] = useState<Option[]>([]);
@@ -81,7 +83,7 @@ export const AddMeasurement = () => {
     if (projectCode) {
       const data = await fetchData(
         "project",
-        `?search=${projectCode}`,
+        `?search=${projectCode}&type=${projectType}`,
         navigate
       );
       setProjectOptions(
@@ -159,7 +161,7 @@ export const AddMeasurement = () => {
 
   return (
     <div className="container">
-      <h2>Manage Project Measurements</h2>
+      <h2>{isMaintenance ? "Maintenance" : "Manage Project"} Measurements</h2>
       <form onSubmit={saveData}>
         <div
           style={{
@@ -171,7 +173,7 @@ export const AddMeasurement = () => {
           <Autocomplete
             id="project-autocomplete"
             renderInputProps={{
-              label: "Project",
+              label: isMaintenance ? "Maintenance" : "Project",
               name: "projectCode",
               value: projectCode,
               onChange: ({ currentTarget }: any) => {
@@ -332,7 +334,7 @@ export const AddMeasurement = () => {
           rows={addAction(measurements.rows)}
           total={measurements.total}
           onPagination={(queryStr: string) => fetchMeasurementData(queryStr)}
-          additionalQueryParams={`projectId=${projectId}`}
+          additionalQueryParams={`projectId=${projectId}&projectType=${projectType}`}
         />
       )}
     </div>
