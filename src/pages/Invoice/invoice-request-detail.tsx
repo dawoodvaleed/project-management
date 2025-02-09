@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../api";
 import { Table } from "../../components/Table";
 import { IconButton } from "@mui/material";
-import { Visibility } from "@mui/icons-material";
+import { Download, Visibility } from "@mui/icons-material";
 import { ModalType } from "../../utils/commonTypes";
 import { CustomModal } from "../../components/Modal";
+import { generateSimpleInvoicePDF } from "../../file-generation/simple-invoice";
 
 export const InvoiceRequestDetail = () => {
   const navigate = useNavigate();
@@ -36,11 +37,15 @@ export const InvoiceRequestDetail = () => {
       ...row,
       customer: `${row.project.customer.name} (${row.project.customer.province})`,
       paymentPost: row.paymentPost ? "YES" : "NO",
-      action: (
+      salesTaxInvoice: (
         <IconButton color="inherit" onClick={() => toggleModal("READ", row)}>
           <Visibility />
         </IconButton>
       ),
+      simpleInvoice: (
+      <IconButton color="inherit" onClick={() => generateSimpleInvoicePDF(row)}>
+        <Download />
+      </IconButton>),
       requestDate: `${new Date(row.createdAt).toLocaleDateString()} - ${new Date(row.updatedAt).toLocaleDateString()}`,
       projectYear: row.project.year,
       percent: row.percentage,
@@ -70,7 +75,7 @@ export const InvoiceRequestDetail = () => {
           { key: "paymentPost", value: "Payment Post" },
           { key: "iom", value: "IOM #" },
           { key: "bankPaymentRefNo", value: "Bank Payment Ref #" },
-          { key: "action", value: "Sales Tax Invoice" },
+          { key: "salesTaxInvoice", value: "Sales Tax Invoice" },
           { key: "simpleInvoice", value: "Simple Invoice" },
         ]}
         rows={addAction(rows)}
