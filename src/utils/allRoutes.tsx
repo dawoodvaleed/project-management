@@ -9,7 +9,7 @@ import {
   ProjectProgressDetail,
 } from "../pages/ProjectProgress";
 import { AddQuotation, Quotation } from "../pages/Quotation";
-import { InvoiceRequest, InvoiceRequestDetail } from "../pages/Invoice";
+import { InvoiceRequest, InvoiceRequestDetail, PaymentPost } from "../pages/Invoice";
 
 const PATHS = {
   users: "/security/user",
@@ -26,6 +26,7 @@ const PATHS = {
   addQuotation: "/add-quotation",
   invoiceRequest: "/invoice-request",
   invoiceRequestDetail: "/invoice-request-detail",
+  paymentPost: "/payment-post",
 };
 
 export const ALL_ROUTES = {
@@ -160,5 +161,11 @@ export const ALL_ROUTES = {
       displayText: "Invoice Request Detail",
       path: PATHS.invoiceRequestDetail,
       route: <Route element={<InvoiceRequestDetail />} path={PATHS.invoiceRequestDetail} />,
+    },
+    paymentPost: {
+      name: "paymentPost",
+      displayText: "Payment Post",
+      path: PATHS.paymentPost,
+      route: <Route element={<PaymentPost />} path={PATHS.paymentPost} />,
     },
 };
