@@ -9,8 +9,7 @@ import {
   ProjectProgressDetail,
 } from "../pages/ProjectProgress";
 import { AddQuotation, Quotation } from "../pages/Quotation";
-import { InvoiceRequest, InvoiceRequestDetail, PaymentPost } from "../pages/Invoice";
-import { InvoiceRequest, InvoiceRequestDetail } from "../pages/Invoice";
+import { InvoiceRequest, InvoiceRequestDetail, InvoicePost } from "../pages/Invoice";
 import { MaintenanceProjects } from "../pages/Maintenance";
 
 const PATHS = {
@@ -28,7 +27,7 @@ const PATHS = {
   addQuotation: "/add-quotation",
   invoiceRequest: "/invoice-request",
   invoiceRequestDetail: "/invoice-request-detail",
-  paymentPost: "/payment-post",
+  invoicePost: "/invoice-post",
   maintenanceProjects: "/maintenance-project",
   maintenanceMeasurements: "/maintenance-measurement",
   addMaintenanceMeasurement: "/add-maintenance-measurement",
@@ -149,31 +148,6 @@ export const ALL_ROUTES = {
     route: <Route element={<AddQuotation />} path={PATHS.addQuotation} />,
   },
 
-    // INVOICE
-    invoice: {
-      name: "invoice",
-      displayText: "Invoice",
-      route: null,
-    },
-    invoiceRequest: {
-      name: "invoiceRequest",
-      displayText: "Invoice Request",
-      path: PATHS.invoiceRequest,
-      route: <Route element={<InvoiceRequest />} path={PATHS.invoiceRequest} />,
-    },
-    invoiceRequestDetail: {
-      name: "invoiceRequestDetail",
-      displayText: "Invoice Request Detail",
-      path: PATHS.invoiceRequestDetail,
-      route: <Route element={<InvoiceRequestDetail />} path={PATHS.invoiceRequestDetail} />,
-    },
-    paymentPost: {
-      name: "paymentPost",
-      displayText: "Payment Post",
-      path: PATHS.paymentPost,
-      route: <Route element={<PaymentPost />} path={PATHS.paymentPost} />,
-    },
-=======
   // INVOICE
   invoice: {
     name: "invoice",
@@ -191,6 +165,12 @@ export const ALL_ROUTES = {
     displayText: "Invoice Request Detail",
     path: PATHS.invoiceRequestDetail,
     route: <Route element={<InvoiceRequestDetail />} path={PATHS.invoiceRequestDetail} />,
+  },
+  invoicePost: {
+    name: "invoicePost",
+    displayText: "Invoice Post",
+    path: PATHS.invoicePost,
+    route: <Route element={<InvoicePost />} path={PATHS.invoicePost} />,
   },
 
   // MAINTENANCE

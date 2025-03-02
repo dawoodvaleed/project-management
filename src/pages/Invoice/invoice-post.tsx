@@ -3,7 +3,7 @@ import { Button, Box, TextField } from "@mui/material";
 import { fetchData, postData } from "../../api";
 import { useNavigate } from "react-router-dom";
 
-export const PaymentPost = () => {
+export const InvoicePost = () => {
   const navigate = useNavigate();
   const [requestNum, setRequestNum] = useState<string>("");
   const [paymentRefNum, setPaymentRefNum] = useState<string>("");
