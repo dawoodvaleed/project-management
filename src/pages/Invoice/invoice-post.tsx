@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button, Box, TextField } from "@mui/material";
-import { fetchData, postData } from "../../api";
+import { fetchDetails, updateDetails } from "../../api";
 import { useNavigate } from "react-router-dom";
 
 export const InvoicePost = () => {
   const navigate = useNavigate();
   const [requestNum, setRequestNum] = useState<string>("");
-  const [paymentRefNum, setPaymentRefNum] = useState<string>("");
+  const [invoiceRefNum, setInvoiceRefNum] = useState<string>("");
 
   const handleGetDetails = async () => {
     if (!requestNum) {
@@ -15,9 +15,14 @@ export const InvoicePost = () => {
     }
 
     try {
-      const data = await fetchData(`/invoice/${requestNum}`, "", navigate);
-      alert("Payment details fetched successfully.");
+      const data = await fetchDetails(`invoice/${requestNum}`, navigate) as any;
+      if (data?.id == requestNum) {
+        alert("Invoice details fetched successfully.");
+      } else {
+        alert("Invoice not found.");
+      }
     } catch (error) {
+      console.log(error);
       alert("Failed to fetch details. Please try again.");
     }
   };
@@ -26,30 +31,30 @@ export const InvoicePost = () => {
     setRequestNum("");
   };
 
-  const handlePaymentPost = async () => {
-    if (!paymentRefNum || !requestNum) {
-      alert("Please enter both Request Number and Payment Reference Number.");
+  const handleInvoicePost = async () => {
+    if (!invoiceRefNum || !requestNum) {
+      alert("Please enter both Request Number and Invoice Reference Number.");
       return;
     }
 
     const requestBody = {
       iom: requestNum,
-      bankPaymentReference: paymentRefNum,
+      bankPaymentReference: invoiceRefNum,
     };
 
     try {
-      const response = await postData(`/invoice/post-payment/${requestNum}`, requestBody, navigate);
+      const response = await updateDetails(`invoice/post-payment/${requestNum}`, requestBody, navigate);
       if (response) {
-        alert("Payment posted successfully.");
+        alert("Invoice posted successfully.");
       }
     } catch (error) {
-      alert("Failed to post payment. Please try again.");
+      alert("Failed to post invoice. Please try again.");
     }
   };
 
   return (
     <Box className="container" sx={{ padding: "20px" }}>
-      <h2>Payment Post</h2>
+      <h2>Invoice Post</h2>
 
       <Box sx={{ display: "flex", gap: 2, marginBottom: 3 }}>
         <TextField
@@ -80,20 +85,20 @@ export const InvoicePost = () => {
 
       <Box sx={{ display: "flex", gap: 2, marginBottom: 3 }}>
         <TextField
-          label="Payment Reference Number"
+          label="Invoice Reference Number"
           variant="outlined"
-          value={paymentRefNum}
-          onChange={(e) => setPaymentRefNum(e.target.value)}
+          value={invoiceRefNum}
+          onChange={(e) => setInvoiceRefNum(e.target.value)}
           required
           fullWidth
         />
         <Button
           variant="contained"
           color="primary"
-          onClick={handlePaymentPost}
+          onClick={handleInvoicePost}
           sx={{ height: "48px", width: "200px" }}
         >
-          Payment Post
+          Invoice Post
         </Button>
       </Box>
     </Box>
