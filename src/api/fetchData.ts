@@ -20,7 +20,7 @@ export const fetchData = async (
     const [rows, total] = data;
     return { rows, total };
   } catch (err: any) {
-    if (err.response.status === 401) {
+    if (err.response?.status === 401) {
       Cookies.remove("authToken");
       navigate("/login");
     }

@@ -9,7 +9,7 @@ import {
   ProjectProgressDetail,
 } from "../pages/ProjectProgress";
 import { AddQuotation, Quotation } from "../pages/Quotation";
-import { InvoiceRequest, InvoiceRequestDetail } from "../pages/Invoice";
+import { InvoiceRequest, InvoiceRequestDetail, InvoicePost } from "../pages/Invoice";
 import { MaintenanceProjects } from "../pages/Maintenance";
 
 const PATHS = {
@@ -27,6 +27,7 @@ const PATHS = {
   addQuotation: "/add-quotation",
   invoiceRequest: "/invoice-request",
   invoiceRequestDetail: "/invoice-request-detail",
+  invoicePost: "/invoice-post",
   maintenanceProjects: "/maintenance-project",
   maintenanceMeasurements: "/maintenance-measurement",
   addMaintenanceMeasurement: "/add-maintenance-measurement",
@@ -164,6 +165,12 @@ export const ALL_ROUTES = {
     displayText: "Invoice Request Detail",
     path: PATHS.invoiceRequestDetail,
     route: <Route element={<InvoiceRequestDetail />} path={PATHS.invoiceRequestDetail} />,
+  },
+  invoicePost: {
+    name: "invoicePost",
+    displayText: "Invoice Post",
+    path: PATHS.invoicePost,
+    route: <Route element={<InvoicePost />} path={PATHS.invoicePost} />,
   },
 
   // MAINTENANCE
