@@ -63,7 +63,7 @@ export const PROTECTED_ROUTES = [
     submenu: [
       { icon: <HorizontalRule />, ...ALL_ROUTES.invoiceRequest },
       { icon: <HorizontalRule />, ...ALL_ROUTES.invoiceRequestDetail },
-      { icon: <HorizontalRule />, ...ALL_ROUTES.paymentPost },
+      { icon: <HorizontalRule />, ...ALL_ROUTES.invoicePost },
     ],
     ...ALL_ROUTES.invoice,
   },
