@@ -8,8 +8,9 @@ import { Delete } from "@mui/icons-material";
 import { ModalType } from "../../utils/commonTypes";
 import { CustomModal } from "../../components/Modal";
 
-export const Measurement = () => {
+export const Measurement = ({ projectType }: { projectType: string }) => {
   const navigate = useNavigate();
+  const isMaintenance = projectType === "MAINTENANCE"
 
   const [data, setData] = useState({ rows: [], total: 0 });
   const [openModal, setOpenModal] = useState(false);
@@ -32,7 +33,7 @@ export const Measurement = () => {
     setOpenModal(!openModal);
   };
 
-  const deleteMeasurement = async (id: string | number) => {};
+  const deleteMeasurement = async (id: string | number) => { };
 
   const addAction = (rows: any) =>
     rows.map((row: any) => ({
@@ -61,10 +62,10 @@ export const Measurement = () => {
         template="MEASUREMENT"
         data={modalData}
       />
-      <h2>All Project Measurement List</h2>
+      <h2>{isMaintenance ? "Maintenance" : "All Project"} Measurement List</h2>
       <Table
         headers={[
-          { key: "projectName", value: "Project" },
+          { key: "projectName", value: isMaintenance ? "Maintenance" : "Project" },
           { key: "date", value: "Date" },
           { key: "customerName", value: "Customer" },
           { key: "branch", value: "Branch" },
@@ -80,6 +81,7 @@ export const Measurement = () => {
         rows={addAction(rows)}
         total={total}
         onPagination={(queryStr: string) => fetchMeasurementData(queryStr)}
+        additionalQueryParams={`projectType=${projectType}`}
       />
     </div>
   );
