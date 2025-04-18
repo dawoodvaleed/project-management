@@ -57,6 +57,9 @@ export const Permissions = () => {
         ALL_ROUTES.invoiceRequest,
         ALL_ROUTES.invoiceRequestDetail,
         ALL_ROUTES.invoicePost,
+        ALL_ROUTES.ShortBillRequest,
+        ALL_ROUTES.ShortBillPost,
+        ALL_ROUTES.ShortBillDetails,
       ],
     },
     {

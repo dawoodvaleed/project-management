@@ -9,7 +9,7 @@ import {
   ProjectProgressDetail,
 } from "../pages/ProjectProgress";
 import { AddQuotation, Quotation } from "../pages/Quotation";
-import { InvoiceRequest, InvoiceRequestDetail, InvoicePost } from "../pages/Invoice";
+import { InvoiceRequest, InvoiceRequestDetail, InvoicePost, ShortBillRequest, ShortBillPost, ShortBillDetails  } from "../pages/Invoice";
 import { MaintenanceProjects } from "../pages/Maintenance";
 
 const PATHS = {
@@ -28,12 +28,15 @@ const PATHS = {
   invoiceRequest: "/invoice-request",
   invoiceRequestDetail: "/invoice-request-detail",
   invoicePost: "/invoice-post",
+  ShortBillRequest: "/short-bill-request",
+  ShortBillPost: "/short-bill-post",
+  ShortBillDetails: "/short-bill-detail",
   maintenanceProjects: "/maintenance-project",
   maintenanceMeasurements: "/maintenance-measurement",
   addMaintenanceMeasurement: "/add-maintenance-measurement",
 };
 
-export const ALL_ROUTES = {
+export const ALL_ROUTES = { 
   // SECURITY
   security: {
     name: "security",
@@ -171,6 +174,24 @@ export const ALL_ROUTES = {
     displayText: "Invoice Post",
     path: PATHS.invoicePost,
     route: <Route element={<InvoicePost />} path={PATHS.invoicePost} />,
+  },
+  ShortBillRequest: {
+    name: "ShortBillRequest",
+    displayText: "Short Bill Request",
+    path: PATHS.ShortBillRequest,
+    route: <Route element={<ShortBillRequest />} path={PATHS.ShortBillRequest} />,
+  },
+  ShortBillPost: {
+    name: "ShortBillPost",
+    displayText: "Short Bill Post",
+    path: PATHS.ShortBillPost,
+    route: <Route element={<ShortBillPost />} path={PATHS.ShortBillPost} />,
+  },
+  ShortBillDetails: {
+    name: "ShortBillDetails",
+    displayText: "Short Bill Details",
+    path: PATHS.ShortBillDetails,
+    route: <Route element={<ShortBillDetails />} path={PATHS.ShortBillDetails} />,
   },
 
   // MAINTENANCE

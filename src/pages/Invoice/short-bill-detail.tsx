@@ -1,0 +1,85 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchData } from "../../api";
+import { Table } from "../../components/Table";
+import { IconButton } from "@mui/material";
+import { Download, Visibility } from "@mui/icons-material";
+import { ModalType } from "../../utils/commonTypes";
+import { CustomModal } from "../../components/Modal";
+import { generateSimpleInvoicePDF } from "../../file-generation/simple-invoice";
+
+export const ShortBillDetails = () => {
+  const navigate = useNavigate();
+
+  const [data, setData] = useState({ rows: [], total: 0 });
+  const [openModal, setOpenModal] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>("READ");
+  const [modalData, setModalData] = useState<any>();
+  const { rows, total } = data;
+
+  const fetchInvoiceData = async (queryStr: string) => {
+    const data = await fetchData("invoice", queryStr, navigate);
+    if (data) {
+      setData(data);
+    }
+  };
+
+  const toggleModal = (type?: ModalType, data?: any) => {
+    setModalData(data);
+    if (type) {
+      setModalType(type);
+    }
+    setOpenModal(!openModal);
+  };
+
+  const addAction = (rows: any) =>
+    rows.map((row: any) => ({
+      ...row,
+      customer: `${row.project.customer.name} (${row.project.customer.province})`,
+      paymentPost: row.paymentPost ? "YES" : "NO",
+      salesTaxInvoice: (
+        <IconButton color="inherit" onClick={() => toggleModal("READ", row)}>
+          <Visibility />
+        </IconButton>
+      ),
+      simpleInvoice: (
+      <IconButton color="inherit" onClick={() => generateSimpleInvoicePDF(row)}>
+        <Download />
+      </IconButton>),
+      requestDate: `${new Date(row.createdAt).toLocaleDateString()} - ${new Date(row.updatedAt).toLocaleDateString()}`,
+      projectYear: row.project.year,
+      percent: row.percentage,
+      iom: row.iom ?? "-",
+      bankPaymentRefNo: row.bankPaymentReference ?? "-",
+    }));
+
+  return (
+    <div className="container">
+      <CustomModal
+        type={modalType}
+        open={openModal}
+        onClose={toggleModal}
+        template="INVOICE_REQUEST_DETAILS"
+        data={modalData}
+      />
+      <h2>Short Bill Details</h2>
+      <Table
+        headers={[
+          { key: "id", value: "Request #" },
+          { key: "customer", value: "Customer" },
+          { key: "date", value: "Date (From - To)" },
+          { key: "budget", value: "Amount" },
+          { key: "paymentPost", value: "Payment Post" },
+          { key: "memoGenerate", value: "Generate Memo" },
+          { key: "iom", value: "IOM #" },
+          { key: "bankPaymentRefNo", value: "Bank Payment Ref #" },
+          { key: "salesTaxInvoice", value: "Sales Tax Invoice" },
+          { key: "simpleInvoice", value: "Simple Invoice" },
+        ]}
+        rows={addAction(rows)}
+        total={total}
+        onPagination={(queryStr: string) => fetchInvoiceData(queryStr)}
+      />
+    </div>
+  );
+};
