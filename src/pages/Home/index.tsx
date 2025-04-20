@@ -30,7 +30,13 @@ export const Home = () => {
           { key: "customerId", value: "Customer ID" },
           { key: "customerName", value: "Customer Name" },
           { key: "newProjectsCount", value: "Projects" },
+          { key: "pendingNewProjectsCount", value: "Pending Projects" },
+          { key: "completedNewProjectsCount", value: "Completed Projects" },
+          { key: "blockedNewProjectsCount", value: "Blocked Projects" },
           { key: "maintenanceProjectsCount", value: "Total Maintenance" },
+          { key: "maintenanceProjectsWithoutInvoiceCount", value: "Pending Maintenance (Maintenance without Payment Request)" },
+          { key: "maintenanceProjectsWithUnpostedPaymentsCount", value: "Pending Maintenance (Maintenance with Payment Request)" },
+          { key: "maintenanceProjectsWithPostedPaymentsCount", value: "Completed Maintenance" },
         ]}
         rows={addAction(rows)}
         total={total}
