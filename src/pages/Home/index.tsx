@@ -19,7 +19,10 @@ export const Home = () => {
 
   const addAction = (rows: any) =>
     rows.map((row: any) => ({
-      ...row
+      ...row,
+      customerAdvancePercentage: row.customerAdvancePercentage ? `${row.customerAdvancePercentage}%` : "0%",
+      customerFirstRunningPercentage: row.customerFirstRunningPercentage ? `${row.customerFirstRunningPercentage}%` : "0%",
+      customerSecondRunningPercentage: row.customerSecondRunningPercentage ? `${row.customerSecondRunningPercentage}%` : "0%",
     }));
 
   return (
@@ -37,6 +40,9 @@ export const Home = () => {
           { key: "maintenanceProjectsWithoutInvoiceCount", value: "🔴 Pending Maintenance (Maintenance without Payment Request)" },
           { key: "maintenanceProjectsWithUnpostedPaymentsCount", value: "🟡 Pending Maintenance (Maintenance with Payment Request)" },
           { key: "maintenanceProjectsWithPostedPaymentsCount", value: "✅ Completed Maintenance" },
+          { key: "customerAdvancePercentage", value: "Advance Percentage" },
+          { key: "customerFirstRunningPercentage", value: "First Running Percentage" },
+          { key: "customerSecondRunningPercentage", value: "Second Running Percentage" },
         ]}
         rows={addAction(rows)}
         total={total}
