@@ -1,6 +1,6 @@
 export type ModalType = "READ" | "WRITE" | "UPDATE" | "DELETE";
 
-export type ModalTemplate = "ROLE" | "USER" | "MEASUREMENT" | "PROJECT" | "PROJECT_PROGRESS" | "INVOICE_REQUEST_DETAILS" | "CUSTOMER_INVOICE_PERCENTAGE_EDIT";
+export type ModalTemplate = "ROLE" | "USER" | "MEASUREMENT" | "PROJECT" | "PROJECT_PROGRESS" | "INVOICE_REQUEST_DETAILS" | "CUSTOMER_INVOICE_PERCENTAGE_EDIT"| "MEASUREMENT_EDIT" ;
 
 export type ModalChildProps = {
   data?: any;

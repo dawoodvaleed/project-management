@@ -255,6 +255,9 @@ export const AddMeasurement = ({ projectType }: { projectType: string }) => {
             type="number"
             onChange={onChange}
             value={length}
+            InputProps={{
+              inputProps: { min: 1 }
+            }}
             disabled={
               !(
                 selectedItem?.unitOfMeasurement === "rft" ||
@@ -268,6 +271,9 @@ export const AddMeasurement = ({ projectType }: { projectType: string }) => {
             type="number"
             onChange={onChange}
             value={height}
+            InputProps={{
+              inputProps: { min: 1 }
+            }}
             disabled
           />
           <TextField
@@ -276,6 +282,9 @@ export const AddMeasurement = ({ projectType }: { projectType: string }) => {
             type="number"
             onChange={onChange}
             value={breadth}
+            InputProps={{
+              inputProps: { min: 1 }
+            }}
             disabled={!(selectedItem?.unitOfMeasurement === "sft")}
           />
           <TextField
@@ -285,6 +294,9 @@ export const AddMeasurement = ({ projectType }: { projectType: string }) => {
             onChange={onChange}
             value={numberOfItems}
             required
+            InputProps={{
+              inputProps: { min: 1 }
+            }}
           />
         </div>
         <div

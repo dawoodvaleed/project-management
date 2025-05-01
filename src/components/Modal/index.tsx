@@ -11,6 +11,7 @@ import { UserModal } from "./user";
 import { ProjectModal } from "./project";
 import { ProjectProgressModal } from "./projectprogress";
 import { CustomerInvoicePercentageEditModal } from "./customer-invoice-percentage-edit";
+import { MeasurementEditModal } from "./measurement-edit";
 
 type ModalProps = {
   open: boolean;
@@ -53,6 +54,7 @@ export const CustomModal = ({
     PROJECT: <ProjectModal type={type} data={data} />,
     PROJECT_PROGRESS: <ProjectProgressModal type={type} data={data} dataRef={dataRef} />,
     CUSTOMER_INVOICE_PERCENTAGE_EDIT: <CustomerInvoicePercentageEditModal data={data} type={type} dataRef={dataRef} />,
+    MEASUREMENT_EDIT: <MeasurementEditModal data={data} type={type} dataRef={dataRef} />,
   };
   const handleSubmit = async (cbFun: any) => {
     setIsLoading(true)

@@ -1,22 +1,55 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchData } from "../../api";
+import { fetchData, updateDetails, deleteData } from "../../api";
 import { Table } from "../../components/Table";
 import { IconButton } from "@mui/material";
 import { formatDate } from "../../utils/util";
-import { Delete } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { ModalType } from "../../utils/commonTypes";
 import { CustomModal } from "../../components/Modal";
 
 export const Measurement = ({ projectType }: { projectType: string }) => {
   const navigate = useNavigate();
-  const isMaintenance = projectType === "MAINTENANCE"
+  const isMaintenance = projectType === "MAINTENANCE";
 
   const [data, setData] = useState({ rows: [], total: 0 });
-  const [openModal, setOpenModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [modalType, setModalType] = useState<ModalType>("READ");
-  const [modalData, setModalData] = useState();
+  const [modalData, setModalData] = useState<any>(null);
   const { rows, total } = data;
+
+  const updateMeasurementDetails = async (data: any) => {
+    try {
+      if (modalData && modalData.id) {
+        const updatedData = await updateDetails(`measurement/${modalData.id}`, data, navigate);
+        if (updatedData) {
+          await fetchMeasurementData("?limit=10&offset=0&projectType=MAINTENANCE");
+        }
+      }
+    } catch (error) {
+      console.error("Error updating measurement:", error);
+    } finally {
+      setShowEditModal(false);
+    }
+  };
+
+  const deleteMeasurement = async (id: string | number) => {
+    console.log(id);
+    try {
+      if (modalData && modalData.id) {
+        const res = await deleteData(`measurement`, id, navigate);
+
+        if (res) {
+          await fetchMeasurementData("?limit=10&offset=0&projectType=MAINTENANCE");
+        }
+      }
+    } catch (error) {
+      console.error("Error Deleting measurement:", error);
+    } finally {
+      setShowDeleteModal(false);
+    }
+  };
 
   const fetchMeasurementData = async (queryStr: string) => {
     const data = await fetchData("measurement", queryStr, navigate);
@@ -25,15 +58,21 @@ export const Measurement = ({ projectType }: { projectType: string }) => {
     }
   };
 
-  const toggleModal = (type?: ModalType, data?: any) => {
+  const toggleDeleteModal = (type?: ModalType, data?: any) => {
     setModalData(data);
     if (type) {
       setModalType(type);
     }
-    setOpenModal(!openModal);
+    setShowDeleteModal(!showDeleteModal);
   };
 
-  const deleteMeasurement = async (id: string | number) => { };
+  const toggleEditModal = (type?: ModalType, data?: any) => {
+    setModalData(data);
+    if (type) {
+      setModalType(type);
+    }
+    setShowEditModal(!showEditModal);
+  };
 
   const addAction = (rows: any) =>
     rows.map((row: any) => ({
@@ -45,9 +84,14 @@ export const Measurement = ({ projectType }: { projectType: string }) => {
       itemName: `${row.item.id} - ${row.item.description}`,
       unit: row.item.unitOfMeasurement,
       action: (
-        <IconButton color="inherit" onClick={() => toggleModal("DELETE", row)}>
-          <Delete />
-        </IconButton>
+        <>
+          <IconButton color="inherit" onClick={() => toggleEditModal("UPDATE", row)}>
+            <Edit />
+          </IconButton>
+          <IconButton color="inherit" onClick={() => toggleDeleteModal("DELETE", row)}>
+            <Delete />
+          </IconButton>
+        </>
       ),
     }));
 
@@ -55,14 +99,23 @@ export const Measurement = ({ projectType }: { projectType: string }) => {
     <div className="container">
       <CustomModal
         type={modalType}
-        open={openModal}
-        onClose={toggleModal}
-        // onSave={saveUser}
+        open={showDeleteModal}
+        onClose={toggleDeleteModal}
         onDelete={deleteMeasurement}
         template="MEASUREMENT"
         data={modalData}
       />
+      <CustomModal
+        type={modalType}
+        open={showEditModal}
+        onClose={toggleEditModal}
+        onUpdate={updateMeasurementDetails}
+        template="MEASUREMENT_EDIT"
+        data={modalData}
+      />
+
       <h2>{isMaintenance ? "Maintenance" : "All Project"} Measurement List</h2>
+
       <Table
         headers={[
           { key: "projectName", value: isMaintenance ? "Maintenance" : "Project" },
@@ -75,7 +128,7 @@ export const Measurement = ({ projectType }: { projectType: string }) => {
           { key: "numberOfItems", value: "NOS" },
           { key: "length", value: "Length" },
           { key: "height", value: "Height" },
-          { key: "breadth", value: "Breath" },
+          { key: "breadth", value: "Breadth" },
           { key: "action", value: "Action" },
         ]}
         rows={addAction(rows)}
